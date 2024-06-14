@@ -1,0 +1,55 @@
+background{
+    width: 100vw;                /* Set the width of the circle */
+    height: 100vh;               /* Set the height of the circle */
+    background-color: rgb(44, 44, 44);      /* Set the background color of the circle */
+    /*border-radius: 50%;          /* Make the element round */
+    position: absolute;          /* Use absolute positioning */
+    top: 50%;                    /* Center vertically */
+    right: 0;                    /* Position it at the right edge */
+    transform: translateY(-50%);
+}
+
+title{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 5vh;
+    top: 0;
+    width: 100%;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 16px;
+    background-color: #000000;
+    color: rgb(15, 238, 90);
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+panel{
+    width: 70px;                /* Set the width of the circle */
+    height: 70px;               /* Set the height of the circle */
+    background-color: rgb(44, 44, 44);      /* Set the background color of the circle */
+    /*border-radius: 50%;          /* Make the element round */
+    position:fixed;          /* Use absolute positioning */
+    top: 30%;                    /* Center vertically */
+    right: calc(50% - 70px);   ;                /* Position it at the right edge */
+    transform: translateY(-50%);
+    border: 4px solid rgb(23, 23, 23);
+    padding: 10px;
+    margin: 20px;
+}
+
+panel2{
+    width: 70px;                /* Set the width of the circle */
+    height: 70px;               /* Set the height of the circle */
+    background-color: rgb(44, 44, 44);      /* Set the background color of the circle */
+    /*border-radius: 50%;          /* Make the element round */
+    position:fixed;          /* Use absolute positioning */
+    top: 30%;                    /* Center vertically */
+    right: calc(50% - 200px);   ;                /* Position it at the right edge */
+    transform: translateY(-50%);
+    border: 4px solid rgb(23, 23, 23);
+    padding: 10px;
+    margin: 20px;
+}
