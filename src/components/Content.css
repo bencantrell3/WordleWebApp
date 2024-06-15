@@ -26,7 +26,35 @@ title{
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-panel{
+square1{
+    width: 70px;                /* Set the width of the circle */
+    height: 70px;               /* Set the height of the circle */
+    background-color: rgb(44, 44, 44);      /* Set the background color of the circle */
+    /*border-radius: 50%;          /* Make the element round */
+    position:fixed;          /* Use absolute positioning */
+    top: 30%;                    /* Center vertically */
+    right: calc(50% + 130px);   ;                /* Position it at the right edge */
+    transform: translateY(-50%);
+    border: 4px solid rgb(23, 23, 23);
+    padding: 10px;
+    margin: 20px;
+}
+
+square2{
+    width: 70px;                /* Set the width of the circle */
+    height: 70px;               /* Set the height of the circle */
+    background-color: rgb(44, 44, 44);      /* Set the background color of the circle */
+    /*border-radius: 50%;          /* Make the element round */
+    position:fixed;          /* Use absolute positioning */
+    top: 30%;                    /* Center vertically */
+    right: calc(50% + 30px);   ;                /* Position it at the right edge */
+    transform: translateY(-50%);
+    border: 4px solid rgb(23, 23, 23);
+    padding: 10px;
+    margin: 20px;
+}
+
+square3{
     width: 70px;                /* Set the width of the circle */
     height: 70px;               /* Set the height of the circle */
     background-color: rgb(44, 44, 44);      /* Set the background color of the circle */
@@ -40,14 +68,28 @@ panel{
     margin: 20px;
 }
 
-panel2{
+square4{
     width: 70px;                /* Set the width of the circle */
     height: 70px;               /* Set the height of the circle */
     background-color: rgb(44, 44, 44);      /* Set the background color of the circle */
     /*border-radius: 50%;          /* Make the element round */
     position:fixed;          /* Use absolute positioning */
     top: 30%;                    /* Center vertically */
-    right: calc(50% - 200px);   ;                /* Position it at the right edge */
+    right: calc(50% - 170px);   ;                /* Position it at the right edge */
+    transform: translateY(-50%);
+    border: 4px solid rgb(23, 23, 23);
+    padding: 10px;
+    margin: 20px;
+}
+
+square5{
+    width: 70px;                /* Set the width of the circle */
+    height: 70px;               /* Set the height of the circle */
+    background-color: rgb(44, 44, 44);      /* Set the background color of the circle */
+    /*border-radius: 50%;          /* Make the element round */
+    position:fixed;          /* Use absolute positioning */
+    top: 30%;                    /* Center vertically */
+    right: calc(50% - 270px);   ;                /* Position it at the right edge */
     transform: translateY(-50%);
     border: 4px solid rgb(23, 23, 23);
     padding: 10px;
