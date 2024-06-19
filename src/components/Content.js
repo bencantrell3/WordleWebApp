@@ -17,9 +17,11 @@ function Content() {
 }
 
 function generateBoard(){
-  for(let j = 0; j < 5; j++){
-    squareArray.push(Square(25, 130-(j*100)))
-    console.log(j*50);
+  for(let i = 0; i < 6; i++){
+    for(let j = 0; j < 5; j++){
+      squareArray.push(Square(18+(i*9), 105-(j*90)))
+      console.log(j*50);
+    }
   }
 }
 
@@ -28,9 +30,9 @@ let Square = (top, offset) => {//need to get it to put arguments into the style 
   let topVar = '' + top + '%';
   let offsetVar = 'calc(50% + ' + offset + 'px)';
   let style = {
-    width: '70px',            
-    height: '70px' ,         
-    backgroundColor: 'rgb(0, 255, 4)',
+    width: '60px',            
+    height: '60px' ,         
+    backgroundColor: 'rgb(44, 44, 44)',
     position:'fixed',
     top: topVar,              
     right: offsetVar,       
@@ -40,7 +42,7 @@ let Square = (top, offset) => {//need to get it to put arguments into the style 
     margin: '20px',
   };
   return(
-    <div style={style}>square</div>
+    <div style={style}></div>
   )
 }
 
