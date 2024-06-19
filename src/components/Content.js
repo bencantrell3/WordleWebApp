@@ -18,7 +18,7 @@ function Content() {
 
 function generateBoard(){
   for(let j = 0; j < 5; j++){
-    squareArray.push(Square(25+(i*12), 130-(j*100)))
+    squareArray.push(Square(25, 130-(j*100)))
     console.log(j*50);
   }
 }
