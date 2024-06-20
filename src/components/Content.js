@@ -3,6 +3,7 @@ import "./Content.css";
 
 let squareArray = [];
 let qwertyArray = [];
+let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]
 function Content() {
   generateBoard();
   generateQwerty();
@@ -29,23 +30,27 @@ function generateBoard(){
 
 function generateQwerty(){
   for(let i = 0; i < 10; i++){
-    qwertyArray.push(qwerty(68, 232-(i*65)))
+    qwertyArray.push(qwerty(68, 232-(i*65),qwertyList[i],30))
   }
   for(let i = 0; i < 9; i++){
-    qwertyArray.push(qwerty(77, 200-(i*65)))
+    qwertyArray.push(qwerty(77, 200-(i*65),qwertyList[i+10],30))
   }
-  for(let i = 0; i < 7; i++){
-    qwertyArray.push(qwerty(86, 135-(i*65)))
+  for(let i = 0; i < 9; i++){
+    if(i === 0 || i === 8)
+      qwertyArray.push(qwerty(86, 200-(i*65),qwertyList[i+19],15))
+    else
+      qwertyArray.push(qwerty(86, 200-(i*65),qwertyList[i+19],30))
   }
 }
 
-let qwerty = (top, offset) => {
+let qwerty = (top, offset, text, size) => {
   let topVar = '' + top + '%';
   let offsetVar = 'calc(50% + ' + offset + 'px)';
   let style = {
     width: '30px',            
     height: '40px' ,         
     backgroundColor: 'rgb(30, 30, 30)',
+    color: 'rgb(255,255,255)',
     position:'fixed',
     top: topVar,              
     right: offsetVar, 
@@ -54,9 +59,13 @@ let qwerty = (top, offset) => {
     padding: '10px',
     margin: '20px',
     borderRadius: '10px',
+    fontSize: ''+ size + 'px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   };  
   return(
-    <div style={style}></div>
+    <div style={style}>{text}</div>
   )
 }
 
