@@ -15,6 +15,7 @@ function Content() {
       </title>
       {squareArray}
       {qwertyArray}
+      {button()}
     </>
   )
 }
@@ -23,7 +24,6 @@ function generateBoard(){
   for(let i = 0; i < 6; i++){
     for(let j = 0; j < 5; j++){
       squareArray.push(Square(17+(i*8), 95-(j*82)))
-      console.log(j*50);
     }
   }
 }
@@ -90,6 +90,17 @@ let Square = (top, offset) => {//need to get it to put arguments into the style 
   )
 }
 
+function button(){
+  return(
+    <sideButton
+      style={{}} // Example style object
+      onClick={handleClick}
+    />
+  )
+}
 
+function handleClick(){
+  console.log('yoooo');
+}
 
 export default Content;
