@@ -3,10 +3,13 @@ import "./Content.css";
 
 let squareArray = [];
 let qwertyArray = [];
+let currentGuess = [];
 let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]
 function Content() {
   generateBoard();
   generateQwerty();
+  console.log(Object.isExtensible(squareArray[0])); // true
+  window.addEventListener('keydown', handleKeyPress);
   return (
     <>
       <background></background>
@@ -73,6 +76,7 @@ let qwerty = (top, offset, text, size) => {
 let Square = (top, offset) => {//need to get it to put arguments into the style sheet. Wierd interaction is JS and css.
   let topVar = '' + top + 'vh';
   let offsetVar = 'calc(50% + ' + offset + 'vh)';
+  let word =  '';
   let style = {
     width: '6vh',            
     height: '6vh' ,         
@@ -84,9 +88,10 @@ let Square = (top, offset) => {//need to get it to put arguments into the style 
     border: '4px solid rgb(23, 23, 23)',
     padding: '5px',
     margin: '20px',
+    
   };
   return(
-    <div style={style}></div>
+    <div style={style}>{word}</div>
   )
 }
 
@@ -103,4 +108,14 @@ function handleClick(){
   console.log('yoooo');
 }
 
+function handleKeyPress(event){
+  console.log(event.key);
+  currentGuess.push(event.key);
+  console.log(currentGuess);
+  updateDisplay();
+};
+
+function updateDisplay(){
+
+}
 export default Content;

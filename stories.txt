@@ -1,0 +1,5 @@
+X Make console log respective key press
+X make console log currentGuess array after a key press
+update first row (currentRow?) to show currentGuess
+    this is only possible using states. JSX elements are "non extensible" by default. It wants you to use states if youre gonna change it.
+check guesses against a file of all five letter words
