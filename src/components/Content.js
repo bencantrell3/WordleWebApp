@@ -4,18 +4,22 @@ import { useState } from 'react';
 let squareArray = [];
 let qwertyArray = [];
 let currentGuess = [];
+let keyAdded = false;
 let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]
 function Content() {
-
-  let [board, setBoard] = useState(['a','b','c','d','e']);
+  if(!keyAdded)
+    window.addEventListener('keydown', handleKeyPress);
+  keyAdded = true;
+  let [board, setBoard] = useState([]);
 
   function generateBoard(){
-    for(let i = 0; i < 6; i++){
+    for(let i = 0; i < 5; i++){//only generates 5
       for(let j = 0; j < 5; j++){
         squareArray.push(Square(14+(i*9), 10-(j*9),board[j]))
       }
     }
   }
+
   
   function generateQwerty(){
     for(let i = 0; i < 10; i++){
@@ -95,20 +99,19 @@ function Content() {
   
   function handleKeyPress(event){
     console.log(event.key);
-    currentGuess.push(event.key);
-    console.log(currentGuess);
-    updateDisplay();
+    let newGuess = [...currentGuess, event.key];
+    console.log(newGuess);
+    currentGuess = newGuess;
+    setBoard(newGuess); // Update the board with the current guess
   };
-  
-  function updateDisplay(){
-  
-  }
+
+
+  let lastRow = [Square(14+(45), 10-(0),board[0]),Square(14+(45), 10-(9),board[1]),Square(14+(45), 10-(18),board[2]),Square(14+(45), 10-(27),board[3]),Square(14+(45), 10-(36),board[4])]
 
 
   generateBoard();
   generateQwerty();
-  console.log(Object.isExtensible(squareArray[0])); // true
-  window.addEventListener('keydown', handleKeyPress);
+  
   return (
     <>
       <background></background>
@@ -117,6 +120,7 @@ function Content() {
       </title>
       {squareArray}
       {qwertyArray}
+      {lastRow}
       {button()}
     </>
   )
