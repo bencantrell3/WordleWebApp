@@ -1,6 +1,17 @@
 import "./Content.css";
+import allWords from "./allWords.txt";
 import { useState } from 'react';
 
+const parseFile = (file) => {
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const text = event.target.result;
+    console.log(text); // Parsed text content
+    // Add your parsing logic here
+  };
+  reader.readAsText(file);
+};
+parseFile('allWords.txt');
 let squareArray = [];
 let qwertyArray = [];
 let currentGuess = [];
@@ -11,6 +22,7 @@ function Content() {
     window.addEventListener('keydown', handleKeyPress);
   keyAdded = true;
   let [currentWord, setCurrentWord] = useState([]);
+  let [colors, setColors] = useState(['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)']);
 
   /*
   function generateBoard(){
@@ -64,13 +76,13 @@ function Content() {
   }
   
   
-  let Square = (top, offset, letter) => {//need to get it to put arguments into the style sheet. Wierd interaction is JS and css.
+  let Square = (top, offset, letter, colorX) => {//need to get it to put arguments into the style sheet. Wierd interaction is JS and css.
     let topVar = '' + top + 'vh';
     let offsetVar = 'calc(50% + ' + offset + 'vh)';
     let style = {
       width: '6vh',            
       height: '6vh' ,         
-      backgroundColor: 'rgb(44, 44, 44)',
+      backgroundColor: colorX,
       position:'fixed',
       top: topVar,              
       right: offsetVar,       
@@ -83,7 +95,7 @@ function Content() {
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',  
       lineHeight: '.8',    
-      color: 'rgb(255, 0, 0)',
+      color: 'rgb(255, 255, 255)',
     };
     return(
       <div style={style}>{letter}</div>
@@ -106,23 +118,34 @@ function Content() {
   function handleKeyPress(event){
     console.log(event.key);
     try{
-      if(currentGuess.length < 5){
+      if(currentGuess.length < 5 && (event.key.length === 1 && event.key.match(/[a-zA-Z]/))){
         let newGuess = [...currentGuess, event.key.toString().toUpperCase()];
         console.log(newGuess);
         currentGuess = newGuess;
         setCurrentWord(currentWord = currentGuess); 
       }
+      if(event.key === 'Enter' && currentGuess.length === 5){
+        if(isValidGuess(currentGuess)){
+          setColors(colors = ['rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)']);
+        }
+        setColors(colors = ['rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)']);
+      }
+      if(event.key === 'Backspace' && currentGuess.length > 0){
+        currentGuess.pop();
+        setCurrentWord(currentWord = currentGuess); 
+      }
+      
     }
     catch(error){}
     console.log(currentGuess);
     
   };
 
+  function isValidGuess(guess){
 
-  //let lastRow = [Square(14+(45), 10-(0),board[0]),Square(14+(45), 10-(9),board[1]),Square(14+(45), 10-(18),board[2]),Square(14+(45), 10-(27),board[3]),Square(14+(45), 10-(36),board[4])]
+  }
 
 
-  //generateBoard();
   generateQwerty();
   
   return (
@@ -134,11 +157,11 @@ function Content() {
       {qwertyArray}
       {button()}
 
-      {Square(14,10,currentGuess[0])}
-      {Square(14,1,currentGuess[1])}
-      {Square(14,-8,currentGuess[2])}
-      {Square(14,-17,currentGuess[3])}
-      {Square(14,-26,currentGuess[4])}
+      {Square(14,10,currentGuess[0], colors[0])}
+      {Square(14,1,currentGuess[1], colors[1])}
+      {Square(14,-8,currentGuess[2], colors[2])}
+      {Square(14,-17,currentGuess[3], colors[3])}
+      {Square(14,-26,currentGuess[4], colors[4])}
 
       {Square(23,10,'')}
       {Square(23,1,'')}
