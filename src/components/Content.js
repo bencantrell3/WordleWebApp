@@ -10,6 +10,17 @@ function Content() {
   if(!keyAdded)
     window.addEventListener('keydown', handleKeyPress);
   keyAdded = true;
+  let [currentWord, setCurrentWord] = useState([]);
+
+  /*
+  function generateBoard(){
+    for(let i = 0; i < 5; i++){//only generates 5
+      for(let j = 0; j < 5; j++){
+        squareArray.push(Square(14+(i*9), 10-(j*9),board[j]))
+      }
+    }
+  }
+*/
   
   function generateQwerty(){
     for(let i = 0; i < 10; i++){
@@ -52,39 +63,6 @@ function Content() {
     )
   }
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  let [currentIndex, setCurrentIndex] = useState(0);
   
   let Square = (top, offset, letter) => {//need to get it to put arguments into the style sheet. Wierd interaction is JS and css.
     let topVar = '' + top + 'vh';
@@ -98,36 +76,19 @@ function Content() {
       right: offsetVar,       
       transform: 'translateY(-50%)',
       border: '4px solid rgb(23, 23, 23)',
-      padding: '5px',
+      padding: '10px',
       margin: '20px',
-      
+      fontSize: '70px',
+      alignItems: 'center',         // Centers items vertically
+      justifyContent: 'center',     // Centers items horizontally
+      textAlign: 'center',  
+      lineHeight: '.8',    
+      color: 'rgb(255, 0, 0)',
     };
     return(
       <div style={style}>{letter}</div>
     )
   }
-
-  //const [letters, setLetters] = useState(Array(5).fill(''));
-  
-
-  function generateBoard(){;
-    console.log(currentIndex);
-    for(let i = 0; i < 5; i++){//only generates 5
-      for(let j = 0; j < 5; j++){
-        squareArray.push(Square(14+(i*9), 10-(j*9),currentIndex));
-      }
-    }
-  }
-
-  function handleKeyPress(event){
-    console.log(event.key);
-    //let newGuess = [...currentGuess, event.key];
-    //console.log(newGuess);
-    //currentGuess = newGuess;
-    //currentIndex++;
-    setCurrentIndex(currentIndex = currentIndex+1);
-    //setBoard(newGuess); // Update the board with the current guess
-  };
   
   function button(){
     return(
@@ -142,96 +103,72 @@ function Content() {
     console.log('yoooo');
   }
   
+  function handleKeyPress(event){
+    console.log(event.key);
+    try{
+      if(currentGuess.length < 5){
+        let newGuess = [...currentGuess, event.key.toString().toUpperCase()];
+        console.log(newGuess);
+        currentGuess = newGuess;
+        setCurrentWord(currentWord = currentGuess); 
+      }
+    }
+    catch(error){}
+    console.log(currentGuess);
+    
+  };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
   //let lastRow = [Square(14+(45), 10-(0),board[0]),Square(14+(45), 10-(9),board[1]),Square(14+(45), 10-(18),board[2]),Square(14+(45), 10-(27),board[3]),Square(14+(45), 10-(36),board[4])]
 
-  generateBoard();
+
+  //generateBoard();
   generateQwerty();
   
-
-  //squareArray.push(Square(14+(i*9), 10-(j*9),currentIndex))
   return (
     <>
       <background></background>
       <title>
         <h1>WORDLE ARCHIVE</h1>
       </title>
-      {/*squareArray*/}
       {qwertyArray}
-      {/*lastRow*/}
       {button()}
 
+      {Square(14,10,currentGuess[0])}
+      {Square(14,1,currentGuess[1])}
+      {Square(14,-8,currentGuess[2])}
+      {Square(14,-17,currentGuess[3])}
+      {Square(14,-26,currentGuess[4])}
 
-      {Square(14,10,currentIndex)}
-      {Square(14,1,currentIndex)}
-      {Square(14,-8,currentIndex)}
-      {Square(14,-17,currentIndex)}
-      {Square(14,-26,currentIndex)}
-
-      {Square(23,10,currentIndex)}
-      {Square(23,1,currentIndex)}
-      {Square(23,-8,currentIndex)}
-      {Square(23,-17,currentIndex)}
-      {Square(23,-26,currentIndex)}
+      {Square(23,10,'')}
+      {Square(23,1,'')}
+      {Square(23,-8,'')}
+      {Square(23,-17,'')}
+      {Square(23,-26,'')}
       
-      {Square(32,10,currentIndex)}
-      {Square(32,1,currentIndex)}
-      {Square(32,-8,currentIndex)}
-      {Square(32,-17,currentIndex)}
-      {Square(32,-26,currentIndex)}
+      {Square(32,10,'')}
+      {Square(32,1,'')}
+      {Square(32,-8,'')}
+      {Square(32,-17,'')}
+      {Square(32,-26,'')}
 
-      {Square(41,10,currentIndex)}
-      {Square(41,1,currentIndex)}
-      {Square(41,-8,currentIndex)}
-      {Square(41,-17,currentIndex)}
-      {Square(41,-26,currentIndex)}
+      {Square(41,10,'')}
+      {Square(41,1,'')}
+      {Square(41,-8,'')}
+      {Square(41,-17,'')}
+      {Square(41,-26,'')}
 
-      {Square(50,10,currentIndex)}
-      {Square(50,1,currentIndex)}
-      {Square(50,-8,currentIndex)}
-      {Square(50,-17,currentIndex)}
-      {Square(50,-26,currentIndex)}
+      {Square(50,10,'')}
+      {Square(50,1,'')}
+      {Square(50,-8,'')}
+      {Square(50,-17,'')}
+      {Square(50,-26,'')}
 
-      {Square(59,10,currentIndex)}
-      {Square(59,1,currentIndex)}
-      {Square(59,-8,currentIndex)}
-      {Square(59,-17,currentIndex)}
-      {Square(59,-26,currentIndex)}
+      {Square(59,10,'')}
+      {Square(59,1,'')}
+      {Square(59,-8,'')}
+      {Square(59,-17,'')}
+      {Square(59,-26,'')}
     </>
   )
 }
