@@ -10,17 +10,6 @@ function Content() {
   if(!keyAdded)
     window.addEventListener('keydown', handleKeyPress);
   keyAdded = true;
-  let [currentIndex, setCurrentIndex] = useState(0);
-
-  /*
-  function generateBoard(){
-    for(let i = 0; i < 5; i++){//only generates 5
-      for(let j = 0; j < 5; j++){
-        squareArray.push(Square(14+(i*9), 10-(j*9),board[j]))
-      }
-    }
-  }
-*/
   
   function generateQwerty(){
     for(let i = 0; i < 10; i++){
@@ -63,6 +52,39 @@ function Content() {
     )
   }
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  let [currentIndex, setCurrentIndex] = useState(0);
   
   let Square = (top, offset, letter) => {//need to get it to put arguments into the style sheet. Wierd interaction is JS and css.
     let topVar = '' + top + 'vh';
@@ -84,6 +106,28 @@ function Content() {
       <div style={style}>{letter}</div>
     )
   }
+
+  //const [letters, setLetters] = useState(Array(5).fill(''));
+  
+
+  function generateBoard(){;
+    console.log(currentIndex);
+    for(let i = 0; i < 5; i++){//only generates 5
+      for(let j = 0; j < 5; j++){
+        squareArray.push(Square(14+(i*9), 10-(j*9),currentIndex));
+      }
+    }
+  }
+
+  function handleKeyPress(event){
+    console.log(event.key);
+    //let newGuess = [...currentGuess, event.key];
+    //console.log(newGuess);
+    //currentGuess = newGuess;
+    //currentIndex++;
+    setCurrentIndex(currentIndex = currentIndex+1);
+    //setBoard(newGuess); // Update the board with the current guess
+  };
   
   function button(){
     return(
@@ -98,29 +142,60 @@ function Content() {
     console.log('yoooo');
   }
   
-  function handleKeyPress(event){
-    console.log(event.key);
-    //let newGuess = [...currentGuess, event.key];
-    //console.log(newGuess);
-    //currentGuess = newGuess;
-    setCurrentIndex(currentIndex + 1); 
-  };
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   //let lastRow = [Square(14+(45), 10-(0),board[0]),Square(14+(45), 10-(9),board[1]),Square(14+(45), 10-(18),board[2]),Square(14+(45), 10-(27),board[3]),Square(14+(45), 10-(36),board[4])]
 
-
-  //generateBoard();
+  generateBoard();
   generateQwerty();
   
+
+  //squareArray.push(Square(14+(i*9), 10-(j*9),currentIndex))
   return (
     <>
       <background></background>
       <title>
         <h1>WORDLE ARCHIVE</h1>
       </title>
+      {/*squareArray*/}
       {qwertyArray}
+      {/*lastRow*/}
       {button()}
+
 
       {Square(14,10,currentIndex)}
       {Square(14,1,currentIndex)}
