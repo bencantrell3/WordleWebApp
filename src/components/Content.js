@@ -1,17 +1,26 @@
 import "./Content.css";
-import allWords from "./allWords.txt";
+//import allWords from "./allWords.txt";
 import { useState } from 'react';
 
-const parseFile = (file) => {
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const text = event.target.result;
-    console.log(text); // Parsed text content
-    // Add your parsing logic here
-  };
-  reader.readAsText(file);
-};
-parseFile('allWords.txt');
+async function fetchAndLogTextFile() {
+  try {
+    const response = await fetch('/allWords.txt');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const text = await response.text();
+    const lines = text.split(/\r\n|\n/);
+    lines.forEach((line, index) => {
+      console.log(`Line ${index + 1}: ${line}`);
+    });
+  } catch (error) {
+    console.error('Error fetching the text file:', error);
+  }
+}
+
+// Call the function as soon as the script runs
+fetchAndLogTextFile();
+
 let squareArray = [];
 let qwertyArray = [];
 let currentGuess = [];
