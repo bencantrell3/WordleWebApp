@@ -1,27 +1,30 @@
 import "./Content.css";
 //import allWords from "./allWords.txt";
 import { useState } from 'react';
-
-async function fetchAndLogTextFile() {
-  try {
-    const response = await fetch('/allWords.txt');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const text = await response.text();
-    const lines = text.split(/\r\n|\n/);
-    lines.forEach((line, index) => {
-      console.log(`Line ${index + 1}: ${line}`);
+let validWords = [];
+function fetchAndLogTextFile() {
+  fetch('/allWords.txt')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => {
+      const lines = text.split(/\r\n|\n/);
+      lines.forEach((line, index) => {
+        validWords.push(`${line}`);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching the text file:', error);
     });
-  } catch (error) {
-    console.error('Error fetching the text file:', error);
-  }
 }
 
 // Call the function as soon as the script runs
 fetchAndLogTextFile();
-
-let squareArray = [];
+//console.log(validWords[0] + "TESTSETSETEWST");
+//let squareArray = [];
 let qwertyArray = [];
 let currentGuess = [];
 let keyAdded = false;
@@ -134,10 +137,20 @@ function Content() {
         setCurrentWord(currentWord = currentGuess); 
       }
       if(event.key === 'Enter' && currentGuess.length === 5){
-        if(isValidGuess(currentGuess)){
+
+
+
+        console.log((currentGuess[0] + '' + currentGuess[1] + '' + currentGuess[2] + '' + currentGuess[3] + '' + currentGuess[4]).toLowerCase());
+        console.log(validWords[587]);
+
+
+
+        if(validWords.indexOf((currentGuess[0] + '' + currentGuess[1] + '' + currentGuess[2] + '' + currentGuess[3] + '' + currentGuess[4]).toLowerCase()) !== -1){
+          console.log("SUCCESS");
           setColors(colors = ['rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)']);
         }
-        setColors(colors = ['rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)']);
+        else{
+          setColors(colors = ['rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)']);}
       }
       if(event.key === 'Backspace' && currentGuess.length > 0){
         currentGuess.pop();
