@@ -23,12 +23,15 @@ function fetchAndLogTextFile() {
 
 // Call the function as soon as the script runs
 fetchAndLogTextFile();
+
 console.log(validWords[0] + "TESTSETSETEWST");
-//let squareArray = [];
+
+
+
 let answer = "rates";
+
+
 let qwertyArray = [];
-let currentGuess = [];
-let keyAdded = false;
 let currentGuess = [];
 let keyAdded = false;
 let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]
@@ -39,28 +42,6 @@ function Content() {
   let [currentWord, setCurrentWord] = useState([]);
   let [colors, setColors] = useState(['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)']);
 
-  /*
-  function generateBoard(){
-    for(let i = 0; i < 5; i++){//only generates 5
-      for(let j = 0; j < 5; j++){
-        squareArray.push(Square(14+(i*9), 10-(j*9),board[j]))
-      }
-  if(!keyAdded)
-    window.addEventListener('keydown', handleKeyPress);
-  keyAdded = true;
-  let [currentWord, setCurrentWord] = useState([]);
-  let [colors, setColors] = useState(['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)']);
-
-  /*
-  function generateBoard(){
-    for(let i = 0; i < 5; i++){//only generates 5
-      for(let j = 0; j < 5; j++){
-        squareArray.push(Square(14+(i*9), 10-(j*9),board[j]))
-      }
-    }
-  }
-*/
-  
   function generateQwerty(){
     for(let i = 0; i < 10; i++){
       qwertyArray.push(qwerty(71, 28.9-(i*8),qwertyList[i],30))
@@ -149,19 +130,18 @@ function Content() {
         currentGuess.pop();
         setCurrentWord(currentWord = currentGuess); 
       }
-      if(currentGuess.length < 5 && (event.key.length === 1 && event.key.match(/[a-zA-Z]/))){
+      else if(currentGuess.length < 5 && (event.key.length === 1 && event.key.match(/[a-zA-Z]/))){
         let newGuess = [...currentGuess, event.key.toString().toUpperCase()];
         console.log(newGuess);
         currentGuess = newGuess;
         setCurrentWord(currentWord = currentGuess); 
       }
-      if(event.key === 'Enter' && currentGuess.length === 5){
+      else if(event.key === 'Enter' && currentGuess.length === 5){
 
         let guessStr = (currentGuess[0] + '' + currentGuess[1] + '' + currentGuess[2] + '' + currentGuess[3] + '' + currentGuess[4]).toLowerCase();
-        console.log(guessStr);
-        console.log(validWords[587] + "TEST");
         if(validWords.includes(guessStr)){
-          setColors(colors = ['rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)','rgb(0, 255, 0)']);
+          let rowColors = processGuess(guessStr);
+          setColors(colors = [rowColors[0], rowColors[1], rowColors[2], rowColors[3], rowColors[4]])
         }
         else{
           setColors(colors = ['rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)']);}
@@ -173,35 +153,58 @@ function Content() {
     console.log(currentGuess);
     
   };
-/*
-  function processGuess(currentGuess){
-      retArray = ['B','B','B','B','B'];
-      let temp = answer;
 
+  function processGuess(currentGuess){
+      let retArray = ['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)'];
+      let temp = answer;
+      //green logic
       if(currentGuess[0] == answer[0]){
-        retArray[0] = 'G';
-        answer = answer.substring(1);
+        retArray[0] = 'rgb(0, 255, 0)';
+        temp = temp.substring(1);
       }
       if(currentGuess[1] == answer[1]){
-        retArray[1] = 'G';
-        answer = answer.substring(0,d) + answer.substring(2);
+        retArray[1] = 'rgb(0, 255, 0)';
+        temp = temp.substring(0,temp.indexOf(answer[1])) + temp.substring(temp.indexOf(answer[1])+1,temp.length);
       }
       if(currentGuess[2] == answer[2]){
-        retArray[2] = 'G';
-        answer = answer.substring(0,2) + answer.substring(3);
+        retArray[2] = 'rgb(0, 255, 0)';
+        temp = temp.substring(0,temp.indexOf(answer[2])) + temp.substring(temp.indexOf(answer[2])+1,temp.length);
       }
       if(currentGuess[3] == answer[3]){
-        retArray[3] = 'G';
-        answer = answer.substring(0,3) + answer.substring(4);
+        retArray[3] = 'rgb(0, 255, 0)';
+        temp = temp.substring(0,temp.indexOf(answer[3])) + temp.substring(temp.indexOf(answer[3])+1,temp.length);
       }
       if(currentGuess[4] == answer[4]){
-        retArray[4] = 'G';
-        answer = answer.substring(0,4);
+        retArray[4] = 'rgb(0, 255, 0)';
+        temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
       }
+      //yellow logic
+      if(temp.indexOf(currentGuess[0]) != -1){
+        retArray[0] = 'rgb(255, 125, 225)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[0])) + temp.substring(temp.indexOf(currentGuess[0])+1,temp.length);
+      }
+      if(temp.indexOf(currentGuess[1]) != -1){
+        retArray[1] = 'rgb(255, 125, 255)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[1])) + temp.substring(temp.indexOf(currentGuess[1])+1,temp.length);
+      }
+      if(temp.indexOf(currentGuess[2]) != -1){
+        retArray[2] = 'rgb(255, 125, 255)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[2])) + temp.substring(temp.indexOf(currentGuess[2])+1,temp.length);
+      }
+      if(temp.indexOf(currentGuess[3]) != -1){
+        retArray[3] = 'rgb(255, 125, 255)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[3])) + temp.substring(temp.indexOf(currentGuess[3])+1,temp.length);
+      }
+      if(temp.indexOf(currentGuess[4]) != -1){
+        retArray[4] = 'rgb(255, 125, 255)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
+      }
+
+      console.log(temp);
       return retArray;
 
   }
-*/
+
 
   generateQwerty();
   
