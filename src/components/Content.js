@@ -29,8 +29,22 @@ let answer = "rates";
 let qwertyArray = [];
 let currentGuess = [];
 let keyAdded = false;
+let currentGuess = [];
+let keyAdded = false;
 let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]
 function Content() {
+  if(!keyAdded)
+    window.addEventListener('keydown', handleKeyPress);
+  keyAdded = true;
+  let [currentWord, setCurrentWord] = useState([]);
+  let [colors, setColors] = useState(['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)']);
+
+  /*
+  function generateBoard(){
+    for(let i = 0; i < 5; i++){//only generates 5
+      for(let j = 0; j < 5; j++){
+        squareArray.push(Square(14+(i*9), 10-(j*9),board[j]))
+      }
   if(!keyAdded)
     window.addEventListener('keydown', handleKeyPress);
   keyAdded = true;
