@@ -101,11 +101,14 @@ function Content() {
       transform: 'translateY(-50%)',
       border: '4px solid rgb(23, 23, 23)',
       padding: '5px',
+      padding: '5px',
       margin: '20px',
+      fontSize: '8vh',
       fontSize: '8vh',
       alignItems: 'center',         // Centers items vertically
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',  
+      lineHeight: '0.7',    
       lineHeight: '0.7',    
       color: 'rgb(255, 255, 255)',
     };
@@ -172,6 +175,54 @@ function Content() {
     
   };
 
+  function processGuess(currentGuess){
+      let retArray = ['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)'];
+      let temp = answer;
+      //green logic
+      if(currentGuess[0] == answer[0]){
+        retArray[0] = 'rgb(0, 255, 0)';
+        temp = temp.substring(1);
+      }
+      if(currentGuess[1] == answer[1]){
+        retArray[1] = 'rgb(0, 255, 0)';
+        temp = temp.substring(0,temp.indexOf(answer[1])) + temp.substring(temp.indexOf(answer[1])+1,temp.length);
+      }
+      if(currentGuess[2] == answer[2]){
+        retArray[2] = 'rgb(0, 255, 0)';
+        temp = temp.substring(0,temp.indexOf(answer[2])) + temp.substring(temp.indexOf(answer[2])+1,temp.length);
+      }
+      if(currentGuess[3] == answer[3]){
+        retArray[3] = 'rgb(0, 255, 0)';
+        temp = temp.substring(0,temp.indexOf(answer[3])) + temp.substring(temp.indexOf(answer[3])+1,temp.length);
+      }
+      if(currentGuess[4] == answer[4]){
+        retArray[4] = 'rgb(0, 255, 0)';
+        temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
+      }
+      //yellow logic
+      if(temp.indexOf(currentGuess[0]) != -1){
+        retArray[0] = 'rgb(255, 125, 225)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[0])) + temp.substring(temp.indexOf(currentGuess[0])+1,temp.length);
+      }
+      if(temp.indexOf(currentGuess[1]) != -1){
+        retArray[1] = 'rgb(255, 125, 255)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[1])) + temp.substring(temp.indexOf(currentGuess[1])+1,temp.length);
+      }
+      if(temp.indexOf(currentGuess[2]) != -1){
+        retArray[2] = 'rgb(255, 125, 255)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[2])) + temp.substring(temp.indexOf(currentGuess[2])+1,temp.length);
+      }
+      if(temp.indexOf(currentGuess[3]) != -1){
+        retArray[3] = 'rgb(255, 125, 255)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[3])) + temp.substring(temp.indexOf(currentGuess[3])+1,temp.length);
+      }
+      if(temp.indexOf(currentGuess[4]) != -1){
+        retArray[4] = 'rgb(255, 125, 255)';
+        temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
+      }
+
+      console.log(temp);
+      return retArray;
   function processGuess(currentGuess){
       let retArray = ['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)'];
       let temp = answer;
