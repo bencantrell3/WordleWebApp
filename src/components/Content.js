@@ -28,7 +28,7 @@ console.log(validWords[0] + "TESTSETSETEWST");
 
 
 
-let answer = "rates";
+let answer = "shape";
 
 let board = [[],[],[],[],[],[]];
 let colorArr = [[],[],[],[],[],[]];
@@ -173,7 +173,7 @@ function Content() {
   };
 
   function processGuess(currentGuess){
-      let retArray = ['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)'];
+      let retArray = ['rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)'];
       let temp = answer;
       //green logic
       if(currentGuess[0] == answer[0]){
@@ -247,29 +247,29 @@ function Content() {
       {Square(23,-17,board[1][3], colorArr[1][3])}
       {Square(23,-26,board[1][4], colorArr[1][4])}
       
-      {Square(32,10,'')}
-      {Square(32,1,'')}
-      {Square(32,-8,'')}
-      {Square(32,-17,'')}
-      {Square(32,-26,'')}
+      {Square(32,10,board[2][0], colorArr[2][0])}
+      {Square(32,1,board[2][1], colorArr[2][1])}
+      {Square(32,-8,board[2][2], colorArr[2][2])}
+      {Square(32,-17,board[2][3], colorArr[2][3])}
+      {Square(32,-26,board[2][4], colorArr[2][4])}
 
-      {Square(41,10,'')}
-      {Square(41,1,'')}
-      {Square(41,-8,'')}
-      {Square(41,-17,'')}
-      {Square(41,-26,'')}
+      {Square(41,10,board[3][0], colorArr[3][0])}
+      {Square(41,1,board[3][1], colorArr[3][1])}
+      {Square(41,-8,board[3][2], colorArr[3][2])}
+      {Square(41,-17,board[3][3], colorArr[3][3])}
+      {Square(41,-26,board[3][4], colorArr[3][4])}
 
-      {Square(50,10,'')}
-      {Square(50,1,'')}
-      {Square(50,-8,'')}
-      {Square(50,-17,'')}
-      {Square(50,-26,'')}
+      {Square(50,10,board[4][0], colorArr[4][0])}
+      {Square(50,1,board[4][1], colorArr[4][1])}
+      {Square(50,-8,board[4][2], colorArr[4][2])}
+      {Square(50,-17,board[4][3], colorArr[4][3])}
+      {Square(50,-26,board[4][4], colorArr[4][4])}
 
-      {Square(59,10,'')}
-      {Square(59,1,'')}
-      {Square(59,-8,'')}
-      {Square(59,-17,'')}
-      {Square(59,-26,'')}
+      {Square(59,10,board[5][0], colorArr[5][0])}
+      {Square(59,1,board[5][1], colorArr[5][1])}
+      {Square(59,-8,board[5][2], colorArr[5][2])}
+      {Square(59,-17,board[5][3], colorArr[5][3])}
+      {Square(59,-26,board[5][4], colorArr[5][4])}
     </>
   )
 }
