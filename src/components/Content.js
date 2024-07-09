@@ -1,6 +1,51 @@
 import "./Content.css";
 //import allWords from "./allWords.txt";
 import { useState } from 'react';
+
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker';
+
+
+const CalendarComponent = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const style = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100vh',
+    backgroundColor: 'rgb(240, 240, 240)',
+    opacity: '0'
+  };
+
+  const datePickerStyle = {
+    width: '300px',
+    padding: '10px',
+    backgroundColor: 'white',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+  };
+
+  return (
+    <div style={style}>
+      <div style={datePickerStyle}>
+        <DatePicker
+          selected={selectedDate}
+          onChange={handleDateChange}
+          inline
+        />
+      </div>
+    </div>
+  );
+};
+
+
+
 let validWords = [];
 function fetchAndLogTextFile() {
   fetch('/allWords.txt')
@@ -24,7 +69,6 @@ function fetchAndLogTextFile() {
 // Call the function as soon as the script runs
 fetchAndLogTextFile();
 
-console.log(validWords[0] + "TESTSETSETEWST");
 
 
 
@@ -124,8 +168,10 @@ function Content() {
   }
   
   function handleClick(){
-    console.log('yoooo');
+    console.log('CLICK');
   }
+  
+ 
   
   function handleKeyPress(event){
     console.log(event.key);
@@ -228,12 +274,13 @@ function Content() {
   
   return (
     <>
+      
       <background></background>
       <title>
-        <h1>WORDLE ARCHIVE</h1>
+        <h1>WORDLE PRO</h1>
       </title>
       {qwertyArray}
-      {button()}
+      
 
       {Square(14,10,board[0][0], colorArr[0][0])}
       {Square(14,1,board[0][1], colorArr[0][1])}
@@ -270,6 +317,9 @@ function Content() {
       {Square(59,-8,board[5][2], colorArr[5][2])}
       {Square(59,-17,board[5][3], colorArr[5][3])}
       {Square(59,-26,board[5][4], colorArr[5][4])}
+
+      {CalendarComponent()}
+      {button()}
     </>
   )
 }
