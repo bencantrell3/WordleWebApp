@@ -71,6 +71,7 @@ fetchAndLogTextFile();
 
 
 
+let globalBlur = false;
 
 let answer = "shape";
 
@@ -133,9 +134,14 @@ function Content() {
   
   
   let Square = (top, offset, letter, colorX) => {//need to get it to put arguments into the style sheet. Wierd interaction is JS and css.
+    let blurVar = '';
+    if(globalBlur){
+      blurVar = 'blur(5px)';
+    }
     let topVar = '' + top + 'vh';
     let offsetVar = 'calc(50% + ' + offset + 'vh)';
     let style = {
+      filter: blurVar,
       width: '6vh',            
       height: '6vh' ,         
       backgroundColor: colorX,
@@ -157,6 +163,53 @@ function Content() {
       <div style={style}>{letter}</div>
     )
   }
+  let [opac, setOpac] = useState(0);
+ 
+  let sideStyle = {
+    width: '30vw',            
+    height: '100vh' ,         
+    backgroundColor: 'rgb(23, 23, 23)',
+    position:'fixed',
+    top: -20,              
+    left: -20,       
+    //transform: 'translateY(-50%)',
+    border: '4px solid rgb(255, 0, 0)',
+    padding: '5px',
+    margin: '20px',
+    fontSize: '8vh',
+    alignItems: 'center',         // Centers items vertically
+    justifyContent: 'center',     // Centers items horizontally
+    textAlign: 'center',  
+    lineHeight: '0.7',    
+    color: 'rgb(255, 255, 255)',
+    opacity: opac,
+  };
+  let Sidebar = () => {
+    //let offsetVar = 'calc(50% + ' + offset + 'vh)';
+    /*
+    sideStyle = {
+      width: '30vw',            
+      height: '100vh' ,         
+      backgroundColor: 'rgb(23, 23, 23)',
+      position:'fixed',
+      top: -20,              
+      left: -20,       
+      //transform: 'translateY(-50%)',
+      border: '4px solid rgb(255, 0, 0)',
+      padding: '5px',
+      margin: '20px',
+      fontSize: '8vh',
+      alignItems: 'center',         // Centers items vertically
+      justifyContent: 'center',     // Centers items horizontally
+      textAlign: 'center',  
+      lineHeight: '0.7',    
+      color: 'rgb(255, 255, 255)',
+      
+    };*/
+    return(
+      <div style={sideStyle}>{}</div>
+    )
+  }
   
   function button(){
     return(
@@ -169,6 +222,12 @@ function Content() {
   
   function handleClick(){
     console.log('CLICK');
+    if(opac === 0){
+      setOpac(opac = 100);
+    }
+    else setOpac(opac = 0);
+
+    globalBlur = !globalBlur;
   }
   
  
@@ -258,7 +317,7 @@ function Content() {
       if(temp.indexOf(currentGuess[3]) != -1){
         retArray[3] = 'rgb(255, 125, 255)';
         temp = temp.substring(0,temp.indexOf(currentGuess[3])) + temp.substring(temp.indexOf(currentGuess[3])+1,temp.length);
-      }
+      } 
       if(temp.indexOf(currentGuess[4]) != -1){
         retArray[4] = 'rgb(255, 125, 255)';
         temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
@@ -317,6 +376,8 @@ function Content() {
       {Square(59,-8,board[5][2], colorArr[5][2])}
       {Square(59,-17,board[5][3], colorArr[5][3])}
       {Square(59,-26,board[5][4], colorArr[5][4])}
+
+      {Sidebar()}
 
       {CalendarComponent()}
       {button()}
