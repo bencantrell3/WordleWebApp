@@ -1,12 +1,9 @@
 import "./Content.css";
-//import allWords from "./allWords.txt";
 import { useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';//calendar dependency
+import DatePicker from 'react-datepicker';//calendar dependency
 
-//import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-datepicker/dist/react-datepicker.css';
-import DatePicker from 'react-datepicker';
-
-
+//CALENDAR: MAY NOT USE///////////////////////////////////////////////////////////////////////////////////////////////////////
 const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -45,7 +42,7 @@ const CalendarComponent = () => {
 };
 
 
-
+//WORD LIST SETUP///////////////////////////////////////////////////////////////////////////////////////////////////////
 let validWords = [];
 function fetchAndLogTextFile() {
   fetch('/allWords.txt')
@@ -66,31 +63,71 @@ function fetchAndLogTextFile() {
     });
 }
 
-// Call the function as soon as the script runs
 fetchAndLogTextFile();
 
 
-
+//VARIABLE INITIALIZATION////////////////////////////////////////////////////////////////////////////////////////////////////
 let globalBlur = false;
-
 let answer = "shape";
+let board = [[],[],[],[],[],[]];//2d array of every letter
+let colorArr = [[],[],[],[],[],[]];//2s array of board colors
+let index = 0;//current row
+let currentGuess = [];//current guess
+let keyAdded = false;//used to validate an event listener is only added once
+let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]//qwerty board
 
-let board = [[],[],[],[],[],[]];
-let colorArr = [[],[],[],[],[],[]];
-
-let index = 0;
-
-let currentGuess = [];
-let keyAdded = false;
-let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]
 function Content() {
+
   if(!keyAdded)
     window.addEventListener('keydown', handleKeyPress);
+
   keyAdded = true;
+
+  //USESTATES: CURRENT GUESS AND COLORS. BACKSPACE IS BUGGED RN////////////////////////////////////////////////////////////////
   let [currentWord, setCurrentWord] = useState([]);
   let [colors, setColors] = useState(['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)']);
 
-   
+  //INLINE STYLING OF COMPONENTS///////////////////////////////////////////////////////////////////////////////////////////////
+  let background = () => {
+    let style = {
+    width: '100vw',                /* Set the width of the circle */
+    height: '100vh',               /* Set the height of the circle */
+    backgroundColor: 'rgb(44, 44, 44)',      /* Set the background color of the circle */
+    /*border-radius: 50%;          /* Make the element round */
+    position: 'absolute',       /* Use absolute positioning */
+    top: '50%',                    /* Center vertically */
+    right: '0',                /* Position it at the right edge */
+    transform: 'translateY(-50%)',
+    };
+    return(
+      <div style={style}>{}</div>
+    )
+  }
+
+  let title = () => {
+    let text = 'WORDLE PRO';
+    let style = {
+    position: 'fixed',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '5vh',
+    top: '0',
+    width: '100%',
+    fontFamily:"'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif'",//pretty sure this isnt picking up everything
+    fontSize: '32px',
+    backgroundColor: 'rgb(0,0,0)',
+    color: 'rgb(255, 0, 0)',
+    padding: '1rem',
+    boxShadow: "0 2px 4px rgb(0, 0, 0, 0.1)",
+    border: "4px solid rgb(255, 0, 0)",
+    };
+    return(
+      <div style={style}>{text}</div>
+    )
+  }
+
   let qwerty = (top, offset, text, size) => {
     let blurVar = '';
     if(globalBlur){
@@ -122,8 +159,7 @@ function Content() {
     )
   }
   
-  
-  let Square = (top, offset, letter, colorX) => {//need to get it to put arguments into the style sheet. Wierd interaction is JS and css.
+  let Square = (top, offset, letter, colorX) => {
     let blurVar = '';
     if(globalBlur){
       blurVar = 'blur(5px)';
@@ -155,36 +191,14 @@ function Content() {
   }
   let [opac, setOpac] = useState(0);
  
-  let sideStyle = {
-    width: '30vw',            
-    height: '100vh' ,         
-    backgroundColor: 'rgb(23, 23, 23)',
-    position:'fixed',
-    top: -20,              
-    left: -20,       
-    //transform: 'translateY(-50%)',
-    border: '4px solid rgb(255, 0, 0)',
-    padding: '5px',
-    margin: '20px',
-    fontSize: '8vh',
-    alignItems: 'center',         // Centers items vertically
-    justifyContent: 'center',     // Centers items horizontally
-    textAlign: 'center',  
-    lineHeight: '0.7',    
-    color: 'rgb(255, 255, 255)',
-    opacity: opac,
-  };
   let Sidebar = () => {
-    //let offsetVar = 'calc(50% + ' + offset + 'vh)';
-    /*
-    sideStyle = {
+    let sideStyle = {
       width: '30vw',            
       height: '100vh' ,         
-      backgroundColor: 'rgb(23, 23, 23)',
+      backgroundColor: 'rgb(0, 0, 0)',
       position:'fixed',
       top: -20,              
       left: -20,       
-      //transform: 'translateY(-50%)',
       border: '4px solid rgb(255, 0, 0)',
       padding: '5px',
       margin: '20px',
@@ -194,22 +208,35 @@ function Content() {
       textAlign: 'center',  
       lineHeight: '0.7',    
       color: 'rgb(255, 255, 255)',
-      
-    };*/
+      opacity: opac,
+    };
     return(
       <div style={sideStyle}>{}</div>
     )
   }
   
-  function button(){
+  let button = () => {
+    let style = {
+    width: '4vh',            
+    height: '2vh',          
+    backgroundColor: 'rgb(0, 0, 0)',
+    position: 'fixed',
+    top: '2vh',              
+    right: 'offsetVar',       
+    transform: 'translateY(-50%)',
+    border: '4px solid rgb(255, 0, 0)',
+    padding: '10px',
+    margin: '20px',
+    borderRadius: '10px',
+    };
     return(
-      <sideButton
-        style={{}} // Example style object
-        onClick={handleClick}
-      />
+      <div style={style} onClick={handleClick}>{}</div>
     )
   }
   
+
+
+  //EVENT HANDLING////////////////////////////////////////////////////////////////////////////////////////////////////////////
   function handleClick(){
     console.log('CLICK');
     if(opac === 0){
@@ -219,8 +246,6 @@ function Content() {
 
     globalBlur = !globalBlur;
   }
-  
- 
   
   function handleKeyPress(event){
     console.log(event.key);
@@ -267,6 +292,8 @@ function Content() {
     
   };
 
+
+  //GUESS CHECK LOGIC//////////////////////////////////////////////////////////////////////////////////////////////////
   function processGuess(currentGuess){
       let retArray = ['rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)'];
       let temp = answer;
@@ -290,7 +317,7 @@ function Content() {
       if(currentGuess[4] == answer[4]){
         retArray[4] = 'rgb(43, 166, 55)';
         temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
-      } 
+      }
       //yellow logic
       if(temp.indexOf(currentGuess[0]) != -1){
         retArray[0] = 'rgb(201, 188, 40)';
@@ -319,14 +346,12 @@ function Content() {
   }
 
 
-  
+  //JSX//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <>
       
-      <background></background>
-      <title>
-        <h1>WORDLE PRO</h1>
-      </title>
+      {background()}
+      {title()}
       
 
       {Square(14,10,board[0][0], colorArr[0][0])}
@@ -403,21 +428,5 @@ function Content() {
     </>
   )
 }
-/*
-function generateQwerty(){
-    for(let i = 0; i < 10; i++){
-      qwertyArray.push(qwerty(71, 28.9-(i*8),qwertyList[i],30))
-    }
-    for(let i = 0; i < 9; i++){
-      qwertyArray.push(qwerty(80, 24.8-(i*8),qwertyList[i+10],30))
-    }
-    for(let i = 0; i < 9; i++){
-      if(i === 0 || i === 8)
-        qwertyArray.push(qwerty(89, 24.8-(i*8),qwertyList[i+19],15))
-      else
-        qwertyArray.push(qwerty(89, 24.8-(i*8),qwertyList[i+19],30))
-    }
-  }
-*/
 
 export default Content;
