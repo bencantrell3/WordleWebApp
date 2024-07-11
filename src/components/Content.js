@@ -68,6 +68,15 @@ fetchAndLogTextFile();
 
 //VARIABLE INITIALIZATION////////////////////////////////////////////////////////////////////////////////////////////////////
 let globalBlur = false;
+const RED = 'rgb(255, 0 ,0';
+const SOFTRED = 'rgb(100,44,44';
+const GREEN = 'rgb(43, 166, 55)';
+const YELLOW = 'rgb(201, 188, 40)';
+const BLACK = 'rgb(0, 0, 0)';
+const DARKGRAY = 'rgb(23, 23, 23)';
+const GRAY = 'rgb(30, 30, 30)';
+const LIGHTGRAY = 'rgb(44, 44, 44';
+const WHITE = 'rgb(255, 255, 255';
 let answer = "shape";
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
@@ -85,14 +94,14 @@ function Content() {
 
   //USESTATES: CURRENT GUESS AND COLORS. BACKSPACE IS BUGGED RN////////////////////////////////////////////////////////////////
   let [currentWord, setCurrentWord] = useState([]);
-  let [colors, setColors] = useState(['rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)','rgb(44, 44, 44)']);
+  let [colors, setColors] = useState([LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY]);
 
   //INLINE STYLING OF COMPONENTS///////////////////////////////////////////////////////////////////////////////////////////////
   let background = () => {
     let style = {
     width: '100vw',                /* Set the width of the circle */
     height: '100vh',               /* Set the height of the circle */
-    backgroundColor: 'rgb(44, 44, 44)',      /* Set the background color of the circle */
+    backgroundColor: LIGHTGRAY,      /* Set the background color of the circle */
     /*border-radius: 50%;          /* Make the element round */
     position: 'absolute',       /* Use absolute positioning */
     top: '50%',                    /* Center vertically */
@@ -117,11 +126,11 @@ function Content() {
     width: '100%',
     fontFamily:"'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif'",//pretty sure this isnt picking up everything
     fontSize: '32px',
-    backgroundColor: 'rgb(0,0,0)',
-    color: 'rgb(255, 0, 0)',
+    backgroundColor: BLACK,
+    color: RED,
     padding: '1rem',
     boxShadow: "0 2px 4px rgb(0, 0, 0, 0.1)",
-    border: "4px solid rgb(255, 0, 0)",
+    border: '4px solid ' + RED,
     };
     return(
       <div style={style}>{text}</div>
@@ -139,13 +148,13 @@ function Content() {
       filter: blurVar,
       width: '3vh',            
       height: '4vh' ,         
-      backgroundColor: 'rgb(30, 30, 30)',
-      color: 'rgb(255,255,255)',
+      backgroundColor: GRAY,
+      color: WHITE,
       position:'fixed',
       top: topVar,              
       right: offsetVar, 
       transform: 'translateY(-50%)',
-      border: '0.5vh solid rgb(255, 255, 255)',
+      border: '0.5vh solid ' + WHITE,
       padding: '10px',
       margin: '20px',
       borderRadius: '10px',
@@ -175,7 +184,7 @@ function Content() {
       top: topVar,              
       right: offsetVar,       
       transform: 'translateY(-50%)',
-      border: '4px solid rgb(23, 23, 23)',
+      border: '4px solid ' + DARKGRAY,
       padding: '5px',
       margin: '20px',
       fontSize: '8vh',
@@ -183,7 +192,7 @@ function Content() {
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',  
       lineHeight: '0.7',    
-      color: 'rgb(255, 255, 255)',
+      color: WHITE,
     };
     return(
       <div style={style}>{letter}</div>
@@ -195,11 +204,11 @@ function Content() {
     let sideStyle = {
       width: '30vw',            
       height: '100vh' ,         
-      backgroundColor: 'rgb(0, 0, 0)',
+      backgroundColor: BLACK,
       position:'fixed',
       top: -20,              
       left: -20,       
-      border: '4px solid rgb(255, 0, 0)',
+      border: '4px solid ' + RED,
       padding: '5px',
       margin: '20px',
       fontSize: '8vh',
@@ -207,7 +216,7 @@ function Content() {
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',  
       lineHeight: '0.7',    
-      color: 'rgb(255, 255, 255)',
+      color: WHITE,
       opacity: opac,
     };
     return(
@@ -219,12 +228,12 @@ function Content() {
     let style = {
     width: '4vh',            
     height: '2vh',          
-    backgroundColor: 'rgb(0, 0, 0)',
+    backgroundColor: BLACK,
     position: 'fixed',
     top: '2vh',              
     right: 'offsetVar',       
     transform: 'translateY(-50%)',
-    border: '4px solid rgb(255, 0, 0)',
+    border: '4px solid ' + RED,
     padding: '10px',
     margin: '20px',
     borderRadius: '10px',
@@ -272,15 +281,16 @@ function Content() {
           setColors(colors = [rowColors[0], rowColors[1], rowColors[2], rowColors[3], rowColors[4]]);
           setCurrentWord(currentWord = currentGuess);
           index++;
-          console.log("INDEX: " + index)
           currentGuess = [];
           board[index] = currentGuess;
-          
+          console.log("VALID GUESS");
         }
         else{
-          setColors(colors = ['rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)','rgb(100, 44, 44)']);}
+          console.log("INVALID GUESS");
+          colorArr[index] = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED];
+          setColors(colors = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED]);
+        }
       }
-       
       if(event.key === 'Backspace'){
         currentGuess.pop();
         setCurrentWord(currentWord = currentGuess); 
@@ -295,48 +305,48 @@ function Content() {
 
   //GUESS CHECK LOGIC//////////////////////////////////////////////////////////////////////////////////////////////////
   function processGuess(currentGuess){
-      let retArray = ['rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)','rgb(23, 23, 23)'];
+      let retArray = [DARKGRAY,DARKGRAY,DARKGRAY,DARKGRAY,DARKGRAY];
       let temp = answer;
       //green logic
       if(currentGuess[0] == answer[0]){
-        retArray[0] = 'rgb(43, 166, 55)';
+        retArray[0] = GREEN;
         temp = temp.substring(1);
       }
       if(currentGuess[1] == answer[1]){
-        retArray[1] = 'rgb(43, 166, 55)';
+        retArray[1] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[1])) + temp.substring(temp.indexOf(answer[1])+1,temp.length);
       }
       if(currentGuess[2] == answer[2]){
-        retArray[2] = 'rgb(43, 166, 55)';
+        retArray[2] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[2])) + temp.substring(temp.indexOf(answer[2])+1,temp.length);
       }
       if(currentGuess[3] == answer[3]){
-        retArray[3] = 'rgb(43, 166, 55)';
+        retArray[3] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[3])) + temp.substring(temp.indexOf(answer[3])+1,temp.length);
       }
       if(currentGuess[4] == answer[4]){
-        retArray[4] = 'rgb(43, 166, 55)';
+        retArray[4] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
       }
       //yellow logic
       if(temp.indexOf(currentGuess[0]) != -1){
-        retArray[0] = 'rgb(201, 188, 40)';
+        retArray[0] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[0])) + temp.substring(temp.indexOf(currentGuess[0])+1,temp.length);
       }
       if(temp.indexOf(currentGuess[1]) != -1){
-        retArray[1] = 'rgb(201, 188, 40)';
+        retArray[1] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[1])) + temp.substring(temp.indexOf(currentGuess[1])+1,temp.length);
       }
       if(temp.indexOf(currentGuess[2]) != -1){
-        retArray[2] = 'rgb(201, 188, 40)';
+        retArray[2] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[2])) + temp.substring(temp.indexOf(currentGuess[2])+1,temp.length);
       }
       if(temp.indexOf(currentGuess[3]) != -1){
-        retArray[3] = 'rgb(201, 188, 40)';
+        retArray[3] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[3])) + temp.substring(temp.indexOf(currentGuess[3])+1,temp.length);
       } 
       if(temp.indexOf(currentGuess[4]) != -1){
-        retArray[4] = 'rgb(201, 188, 40)';
+        retArray[4] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
       }
 
