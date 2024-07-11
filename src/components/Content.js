@@ -259,9 +259,11 @@ function Content() {
   function handleKeyPress(event){
     console.log(event.key);
     try{
-      if(event.key === 'Backspace' && currentGuess.length > 0 ){
+      if(event.key === 'Backspace'){
         currentGuess.pop();
-        currentGuess.push('');
+        let newGuess = [...currentGuess];
+        console.log(newGuess);
+        currentGuess = newGuess;
         board[index] = currentGuess;
         setCurrentWord(currentWord = currentGuess); 
       }
@@ -290,10 +292,6 @@ function Content() {
           colorArr[index] = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED];
           setColors(colors = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED]);
         }
-      }
-      if(event.key === 'Backspace'){
-        currentGuess.pop();
-        setCurrentWord(currentWord = currentGuess); 
       }
       
     }
@@ -363,7 +361,7 @@ function Content() {
       {background()}
       {title()}
       
-
+      {console.log("RERENDER")}
       {Square(14,10,board[0][0], colorArr[0][0])}
       {Square(14,1,board[0][1], colorArr[0][1])}
       {Square(14,-8,board[0][2], colorArr[0][2])}
