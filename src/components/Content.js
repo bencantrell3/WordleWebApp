@@ -68,6 +68,7 @@ fetchAndLogTextFile();
 
 //VARIABLE INITIALIZATION////////////////////////////////////////////////////////////////////////////////////////////////////
 let globalBlur = false;
+let canClickSideBar = false;
 const RED = 'rgb(255, 0 ,0';
 const SOFTRED = 'rgb(100,44,44';
 const GREEN = 'rgb(43, 166, 55)';
@@ -230,6 +231,7 @@ function Content() {
       lineHeight: '0.7',    
       color: WHITE,
       opacity: opac,
+      pointerEvents: canClickSideBar ? 'auto' : 'none'
     };
     return(
       <div style={sideStyle}>{}</div>
@@ -263,7 +265,7 @@ function Content() {
       setOpac(opac = 100);
     }
     else setOpac(opac = 0);
-
+    canClickSideBar = !canClickSideBar;
     globalBlur = !globalBlur;
   }
 
@@ -431,10 +433,10 @@ function Content() {
 
       
 
-      {Sidebar()}
+      
 
       {CalendarComponent()}
-      {button()}
+      
       {qwerty(71, 28.9, qwertyList[0],30, qwertyColors[0])}
       {qwerty(71, 20.9, qwertyList[1],30, qwertyColors[1])}
       {qwerty(71, 12.9, qwertyList[2],30, qwertyColors[2])}
@@ -465,38 +467,11 @@ function Content() {
       {qwerty(89, -23.2, qwertyList[25],30, qwertyColors[25])}
       {qwerty(89, -31.2, qwertyList[26],30, qwertyColors[26])}
       {qwerty(89, -39.2, qwertyList[27],15, qwertyColors[27])}
+
+      {Sidebar()}
+      {button()}
     </>
   )
 }
-/*
-{qwerty(71, 20.9, qwertyList[1],30, qwertyColors[1])}
-      {qwerty(71, 12.9, qwertyList[2],30, qwertyColors[2])}
-      {qwerty(71, 4.9, qwertyList[3],30, qwertyColors[3])}
-      {qwerty(71, -3.1, qwertyList[4],30, qwertyColors[4])}
-      {qwerty(71, -11.1, qwertyList[5],30, qwertyColors[5])}
-      {qwerty(71, -19.1, qwertyList[6],30, qwertyColors[6])}
-      {qwerty(71, -27.1, qwertyList[7],30, qwertyColors[7])}
-      {qwerty(71, -35.1, qwertyList[8],30, qwertyColors[8])}
-      {qwerty(71, -43.1, qwertyList[9],30, qwertyColors[9])}
 
-      {qwerty(80, 24.8, qwertyList[10],30, qwertyColors[10])}
-      {qwerty(80, 16.8, qwertyList[11],30, qwertyColors[11])}
-      {qwerty(80, 8.8, qwertyList[12],30, qwertyColors[12])}
-      {qwerty(80, 0.8, qwertyList[13],30, qwertyColors[13])}
-      {qwerty(80, -7.2, qwertyList[14],30, qwertyColors[14])}
-      {qwerty(80, -15.2, qwertyList[15],30, qwertyColors[15])}
-      {qwerty(80, -23.2, qwertyList[16],30, qwertyColors[16])}
-      {qwerty(80, -31.2, qwertyList[17],30, qwertyColors[17])}
-      {qwerty(80, -39.2, qwertyList[18],30, qwertyColors[18])}
-
-      {qwerty(89, 24.8, qwertyList[19],15, qwertyColors[19])}
-      {qwerty(89, 16.8, qwertyList[20],30, qwertyColors[20])}
-      {qwerty(89, 8.8, qwertyList[21],30, qwertyColors[21])}
-      {qwerty(89, 0.8, qwertyList[22],30, qwertyColors[22])}
-      {qwerty(89, -7.2, qwertyList[23],30, qwertyColors[23])}
-      {qwerty(89, -15.2, qwertyList[24],30, qwertyColors[24])}
-      {qwerty(89, -23.2, qwertyList[25],30, qwertyColors[25])}
-      {qwerty(89, -31.2, qwertyList[26],30, qwertyColors[26])}
-      {qwerty(89, -39.2, qwertyList[27],15, qwertyColors[27])}
-*/
 export default Content;
