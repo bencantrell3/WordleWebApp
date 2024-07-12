@@ -165,8 +165,18 @@ function Content() {
       justifyContent: 'center',
       alignItems: 'center'
     };  
+    if(text == "BACK"){
+      return(
+        <div style={style} onClick={() => handleBackspace()}>{text}</div>
+      )
+    }
+    else if(text == "ENTER"){
+      return(
+        <div style={style} onClick={() => handleEnter()}>{text}</div>
+      )
+    }
     return(
-      <div style={style} onClick={() => handleQwertyClick(text)}>{text}</div>
+      <div style={style} onClick={() => handleQwerty(text)}>{text}</div>
     )
   }
   
@@ -245,26 +255,6 @@ function Content() {
     )
   }
 
-  let button2 = () => {
-    let style = {
-      width: '4vh',            
-      height: '2vh',          
-      backgroundColor: BLACK,
-      position: 'fixed',
-      top: '30vh',              
-      right: 'offsetVar',       
-      transform: 'translateY(-50%)',
-      border: '4px solid ' + RED,
-      padding: '10px',
-      margin: '20px',
-      borderRadius: '10px',
-    };
-    return(
-      <div style={style} onClick={handleClick}>{}</div>
-    )
-  }
-  
-
 
   //EVENT HANDLING////////////////////////////////////////////////////////////////////////////////////////////////////////////
   function handleClick(){
@@ -277,59 +267,57 @@ function Content() {
     globalBlur = !globalBlur;
   }
 
-  function handleQwertyClick(input){
-    console.log("QWERTY CLICK");
-    let newGuess = [...currentGuess, input.toUpperCase()];
-    currentGuess = newGuess;
-    board[index] = currentGuess;
-    setCurrentWord(currentWord = currentGuess); 
+  function handleQwerty(input){
+    if(currentGuess.length < 5 && (input.length === 1 && input.match(/[a-zA-Z]/))){
+      console.log("QWERTY CLICK");
+      let newGuess = [...currentGuess, input.toUpperCase()];
+      currentGuess = newGuess;
+      board[index] = currentGuess;
+      setCurrentWord(currentWord = currentGuess); 
+    }
   }
-  
-  function handleKeyPress(event){
-    console.log(event.key);
-    try{
-      if(event.key === 'Backspace'){
-        currentGuess.pop();
 
+  function handleBackspace(){
+    currentGuess.pop();
         let newGuess = [...currentGuess];//these lines are redundant but fix the backspace bug
         console.log(newGuess);
         currentGuess = newGuess;
-
         board[index] = currentGuess;
         setCurrentWord(currentWord = currentGuess); 
+  }
+
+  function handleEnter(){
+    let guessStr = (currentGuess[0] + '' + currentGuess[1] + '' + currentGuess[2] + '' + currentGuess[3] + '' + currentGuess[4]).toLowerCase();
+    if(validWords.includes(guessStr)){
+      let rowColors = processGuess(guessStr);
+      colorArr[index] = [rowColors[0], rowColors[1], rowColors[2], rowColors[3], rowColors[4]];
+      setColors(colors = [rowColors[0], rowColors[1], rowColors[2], rowColors[3], rowColors[4]]);
+      setCurrentWord(currentWord = currentGuess);
+      index++;
+      currentGuess = [];
+      board[index] = currentGuess;
+      console.log("VALID GUESS");
+    }
+    else{
+      console.log("INVALID GUESS");
+      colorArr[index] = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED];
+      setColors(colors = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED]);
+    }
+  }
+  
+  function handleKeyPress(event){
+      if(event.key === 'Backspace'){
+        handleBackspace();
       }
       else if(currentGuess.length < 5 && (event.key.length === 1 && event.key.match(/[a-zA-Z]/))){
-        let newGuess = [...currentGuess, event.key.toString().toUpperCase()];
-        console.log(newGuess);
-        currentGuess = newGuess;
-        board[index] = currentGuess;
-        setCurrentWord(currentWord = currentGuess); 
+        handleQwerty(event.key.toString().toUpperCase());
       } 
       else if(event.key === 'Enter' && currentGuess.length === 5){
-
-        let guessStr = (currentGuess[0] + '' + currentGuess[1] + '' + currentGuess[2] + '' + currentGuess[3] + '' + currentGuess[4]).toLowerCase();
-        if(validWords.includes(guessStr)){
-          let rowColors = processGuess(guessStr);
-          colorArr[index] = [rowColors[0], rowColors[1], rowColors[2], rowColors[3], rowColors[4]];
-          setColors(colors = [rowColors[0], rowColors[1], rowColors[2], rowColors[3], rowColors[4]]);
-          setCurrentWord(currentWord = currentGuess);
-          index++;
-          currentGuess = [];
-          board[index] = currentGuess;
-          console.log("VALID GUESS");
-        }
-        else{
-          console.log("INVALID GUESS");
-          colorArr[index] = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED];
-          setColors(colors = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED]);
-        }
-      }
-      
-    }
-    catch(error){}
-    console.log(currentGuess);
+        handleEnter();
+      }  
+  }
     
-  };
+  
 
 
   //GUESS CHECK LOGIC//////////////////////////////////////////////////////////////////////////////////////////////////
