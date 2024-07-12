@@ -74,11 +74,10 @@ const GREEN = 'rgb(43, 166, 55)';
 const YELLOW = 'rgb(201, 188, 40)';
 const BLACK = 'rgb(0, 0, 0)';
 const DARKGRAY = 'rgb(23, 23, 23)';
-const GRAY = 'rgb(30, 30, 30)';
 const LIGHTGRAY = 'rgb(44, 44, 44';
 const LIGHTLIGHTGRAY = 'rgb(100,100,100)';
 const WHITE = 'rgb(255, 255, 255';
-let answer = "shape";
+let answer = "cameo";
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
 let qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
@@ -97,6 +96,7 @@ function Content() {
   //USESTATES: CURRENT GUESS AND COLORS. BACKSPACE IS BUGGED RN////////////////////////////////////////////////////////////////
   let [currentWord, setCurrentWord] = useState([]);
   let [colors, setColors] = useState([LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY]);
+  let [opac, setOpac] = useState(0);
 
   //INLINE STYLING OF COMPONENTS///////////////////////////////////////////////////////////////////////////////////////////////
   let background = () => {
@@ -166,7 +166,7 @@ function Content() {
       alignItems: 'center'
     };  
     return(
-      <div style={style}>{text}</div>
+      <div style={style} onClick={() => handleQwertyClick(text)}>{text}</div>
     )
   }
   
@@ -200,7 +200,7 @@ function Content() {
       <div style={style}>{letter}</div>
     )
   }
-  let [opac, setOpac] = useState(0);
+  
  
   let Sidebar = () => {
     let sideStyle = {
@@ -228,17 +228,36 @@ function Content() {
   
   let button = () => {
     let style = {
-    width: '4vh',            
-    height: '2vh',          
-    backgroundColor: BLACK,
-    position: 'fixed',
-    top: '2vh',              
-    right: 'offsetVar',       
-    transform: 'translateY(-50%)',
-    border: '4px solid ' + RED,
-    padding: '10px',
-    margin: '20px',
-    borderRadius: '10px',
+      width: '4vh',            
+      height: '2vh',          
+      backgroundColor: BLACK,
+      position: 'fixed',
+      top: '2vh',              
+      right: 'offsetVar',       
+      transform: 'translateY(-50%)',
+      border: '4px solid ' + RED,
+      padding: '10px',
+      margin: '20px',
+      borderRadius: '10px',
+    };
+    return(
+      <div style={style} onClick={handleClick}>{}</div>
+    )
+  }
+
+  let button2 = () => {
+    let style = {
+      width: '4vh',            
+      height: '2vh',          
+      backgroundColor: BLACK,
+      position: 'fixed',
+      top: '30vh',              
+      right: 'offsetVar',       
+      transform: 'translateY(-50%)',
+      border: '4px solid ' + RED,
+      padding: '10px',
+      margin: '20px',
+      borderRadius: '10px',
     };
     return(
       <div style={style} onClick={handleClick}>{}</div>
@@ -256,6 +275,14 @@ function Content() {
     else setOpac(opac = 0);
 
     globalBlur = !globalBlur;
+  }
+
+  function handleQwertyClick(input){
+    console.log("QWERTY CLICK");
+    let newGuess = [...currentGuess, input.toUpperCase()];
+    currentGuess = newGuess;
+    board[index] = currentGuess;
+    setCurrentWord(currentWord = currentGuess); 
   }
   
   function handleKeyPress(event){
@@ -313,53 +340,53 @@ function Content() {
         qwertyColors[qwertyList.indexOf(currentGuess[i].toUpperCase())] = DARKGRAY;
       }
       //green logic
-      if(currentGuess[0] == answer[0]){
+      if(currentGuess[0] === answer[0]){
         retArray[0] = GREEN;
         qwertyColors[qwertyList.indexOf(currentGuess[0].toUpperCase())] = GREEN;
         temp = temp.substring(1);
       }
-      if(currentGuess[1] == answer[1]){
+      if(currentGuess[1] === answer[1]){
         retArray[1] = GREEN;
         qwertyColors[qwertyList.indexOf(currentGuess[1].toUpperCase())] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[1])) + temp.substring(temp.indexOf(answer[1])+1,temp.length);
       }
-      if(currentGuess[2] == answer[2]){
+      if(currentGuess[2] === answer[2]){
         retArray[2] = GREEN;
         qwertyColors[qwertyList.indexOf(currentGuess[2].toUpperCase())] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[2])) + temp.substring(temp.indexOf(answer[2])+1,temp.length);
       }
-      if(currentGuess[3] == answer[3]){
+      if(currentGuess[3] === answer[3]){
         retArray[3] = GREEN;
         qwertyColors[qwertyList.indexOf(currentGuess[3].toUpperCase())] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[3])) + temp.substring(temp.indexOf(answer[3])+1,temp.length);
       }
-      if(currentGuess[4] == answer[4]){
+      if(currentGuess[4] === answer[4]){
         retArray[4] = GREEN;
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
       }
       //yellow logic
-      if(temp.indexOf(currentGuess[0]) != -1){
+      if(temp.indexOf(currentGuess[0]) !== -1){
         retArray[0] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[0].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[0])) + temp.substring(temp.indexOf(currentGuess[0])+1,temp.length);
       }
-      if(temp.indexOf(currentGuess[1]) != -1){
+      if(temp.indexOf(currentGuess[1]) !== -1){
         retArray[1] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[1].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[1])) + temp.substring(temp.indexOf(currentGuess[1])+1,temp.length);
       }
-      if(temp.indexOf(currentGuess[2]) != -1){
+      if(temp.indexOf(currentGuess[2]) !== -1){
         retArray[2] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[2].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[2])) + temp.substring(temp.indexOf(currentGuess[2])+1,temp.length);
       }
-      if(temp.indexOf(currentGuess[3]) != -1){
+      if(temp.indexOf(currentGuess[3]) !== -1){
         retArray[3] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[3].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[3])) + temp.substring(temp.indexOf(currentGuess[3])+1,temp.length);
       } 
-      if(temp.indexOf(currentGuess[4]) != -1){
+      if(temp.indexOf(currentGuess[4]) !== -1){
         retArray[4] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
@@ -414,43 +441,74 @@ function Content() {
       {Square(59,-17,board[5][3], colorArr[5][3])}
       {Square(59,-26,board[5][4], colorArr[5][4])}
 
-      {(qwerty(71, 28.9, qwertyList[0],30, qwertyColors[0]))}
-      {(qwerty(71, 20.9, qwertyList[1],30, qwertyColors[1]))}
-      {(qwerty(71, 12.9, qwertyList[2],30, qwertyColors[2]))}
-      {(qwerty(71, 4.9, qwertyList[3],30, qwertyColors[3]))}
-      {(qwerty(71, -3.1, qwertyList[4],30, qwertyColors[4]))}
-      {(qwerty(71, -11.1, qwertyList[5],30, qwertyColors[5]))}
-      {(qwerty(71, -19.1, qwertyList[6],30, qwertyColors[6]))}
-      {(qwerty(71, -27.1, qwertyList[7],30, qwertyColors[7]))}
-      {(qwerty(71, -35.1, qwertyList[8],30, qwertyColors[8]))}
-      {(qwerty(71, -43.1, qwertyList[9],30, qwertyColors[9]))}
-
-      {(qwerty(80, 24.8, qwertyList[10],30, qwertyColors[10]))}
-      {(qwerty(80, 16.8, qwertyList[11],30, qwertyColors[11]))}
-      {(qwerty(80, 8.8, qwertyList[12],30, qwertyColors[12]))}
-      {(qwerty(80, 0.8, qwertyList[13],30, qwertyColors[13]))}
-      {(qwerty(80, -7.2, qwertyList[14],30, qwertyColors[14]))}
-      {(qwerty(80, -15.2, qwertyList[15],30, qwertyColors[15]))}
-      {(qwerty(80, -23.2, qwertyList[16],30, qwertyColors[16]))}
-      {(qwerty(80, -31.2, qwertyList[17],30, qwertyColors[17]))}
-      {(qwerty(80, -39.2, qwertyList[18],30, qwertyColors[18]))}
-
-      {(qwerty(89, 24.8, qwertyList[19],15, qwertyColors[19]))}
-      {(qwerty(89, 16.8, qwertyList[20],30, qwertyColors[20]))}
-      {(qwerty(89, 8.8, qwertyList[21],30, qwertyColors[21]))}
-      {(qwerty(89, 0.8, qwertyList[22],30, qwertyColors[22]))}
-      {(qwerty(89, -7.2, qwertyList[23],30, qwertyColors[23]))}
-      {(qwerty(89, -15.2, qwertyList[24],30, qwertyColors[24]))}
-      {(qwerty(89, -23.2, qwertyList[25],30, qwertyColors[25]))}
-      {(qwerty(89, -31.2, qwertyList[26],30, qwertyColors[26]))}
-      {(qwerty(89, -39.2, qwertyList[27],15, qwertyColors[27]))}
+      
 
       {Sidebar()}
 
       {CalendarComponent()}
       {button()}
+      {qwerty(71, 28.9, qwertyList[0],30, qwertyColors[0])}
+      {qwerty(71, 20.9, qwertyList[1],30, qwertyColors[1])}
+      {qwerty(71, 12.9, qwertyList[2],30, qwertyColors[2])}
+      {qwerty(71, 4.9, qwertyList[3],30, qwertyColors[3])}
+      {qwerty(71, -3.1, qwertyList[4],30, qwertyColors[4])}
+      {qwerty(71, -11.1, qwertyList[5],30, qwertyColors[5])}
+      {qwerty(71, -19.1, qwertyList[6],30, qwertyColors[6])}
+      {qwerty(71, -27.1, qwertyList[7],30, qwertyColors[7])}
+      {qwerty(71, -35.1, qwertyList[8],30, qwertyColors[8])}
+      {qwerty(71, -43.1, qwertyList[9],30, qwertyColors[9])}
+
+      {qwerty(80, 24.8, qwertyList[10],30, qwertyColors[10])}
+      {qwerty(80, 16.8, qwertyList[11],30, qwertyColors[11])}
+      {qwerty(80, 8.8, qwertyList[12],30, qwertyColors[12])}
+      {qwerty(80, 0.8, qwertyList[13],30, qwertyColors[13])}
+      {qwerty(80, -7.2, qwertyList[14],30, qwertyColors[14])}
+      {qwerty(80, -15.2, qwertyList[15],30, qwertyColors[15])}
+      {qwerty(80, -23.2, qwertyList[16],30, qwertyColors[16])}
+      {qwerty(80, -31.2, qwertyList[17],30, qwertyColors[17])}
+      {qwerty(80, -39.2, qwertyList[18],30, qwertyColors[18])}
+
+      {qwerty(89, 24.8, qwertyList[19],15, qwertyColors[19])}
+      {qwerty(89, 16.8, qwertyList[20],30, qwertyColors[20])}
+      {qwerty(89, 8.8, qwertyList[21],30, qwertyColors[21])}
+      {qwerty(89, 0.8, qwertyList[22],30, qwertyColors[22])}
+      {qwerty(89, -7.2, qwertyList[23],30, qwertyColors[23])}
+      {qwerty(89, -15.2, qwertyList[24],30, qwertyColors[24])}
+      {qwerty(89, -23.2, qwertyList[25],30, qwertyColors[25])}
+      {qwerty(89, -31.2, qwertyList[26],30, qwertyColors[26])}
+      {qwerty(89, -39.2, qwertyList[27],15, qwertyColors[27])}
     </>
   )
 }
+/*
+{qwerty(71, 20.9, qwertyList[1],30, qwertyColors[1])}
+      {qwerty(71, 12.9, qwertyList[2],30, qwertyColors[2])}
+      {qwerty(71, 4.9, qwertyList[3],30, qwertyColors[3])}
+      {qwerty(71, -3.1, qwertyList[4],30, qwertyColors[4])}
+      {qwerty(71, -11.1, qwertyList[5],30, qwertyColors[5])}
+      {qwerty(71, -19.1, qwertyList[6],30, qwertyColors[6])}
+      {qwerty(71, -27.1, qwertyList[7],30, qwertyColors[7])}
+      {qwerty(71, -35.1, qwertyList[8],30, qwertyColors[8])}
+      {qwerty(71, -43.1, qwertyList[9],30, qwertyColors[9])}
 
+      {qwerty(80, 24.8, qwertyList[10],30, qwertyColors[10])}
+      {qwerty(80, 16.8, qwertyList[11],30, qwertyColors[11])}
+      {qwerty(80, 8.8, qwertyList[12],30, qwertyColors[12])}
+      {qwerty(80, 0.8, qwertyList[13],30, qwertyColors[13])}
+      {qwerty(80, -7.2, qwertyList[14],30, qwertyColors[14])}
+      {qwerty(80, -15.2, qwertyList[15],30, qwertyColors[15])}
+      {qwerty(80, -23.2, qwertyList[16],30, qwertyColors[16])}
+      {qwerty(80, -31.2, qwertyList[17],30, qwertyColors[17])}
+      {qwerty(80, -39.2, qwertyList[18],30, qwertyColors[18])}
+
+      {qwerty(89, 24.8, qwertyList[19],15, qwertyColors[19])}
+      {qwerty(89, 16.8, qwertyList[20],30, qwertyColors[20])}
+      {qwerty(89, 8.8, qwertyList[21],30, qwertyColors[21])}
+      {qwerty(89, 0.8, qwertyList[22],30, qwertyColors[22])}
+      {qwerty(89, -7.2, qwertyList[23],30, qwertyColors[23])}
+      {qwerty(89, -15.2, qwertyList[24],30, qwertyColors[24])}
+      {qwerty(89, -23.2, qwertyList[25],30, qwertyColors[25])}
+      {qwerty(89, -31.2, qwertyList[26],30, qwertyColors[26])}
+      {qwerty(89, -39.2, qwertyList[27],15, qwertyColors[27])}
+*/
 export default Content;
