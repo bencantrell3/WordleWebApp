@@ -42,7 +42,7 @@ const CalendarComponent = () => {
 };
 
 
-//WORD LIST SETUP///////////////////////////////////////////////////////////////////////////////////////////////////////
+//WORD LISTS SETUP///////////////////////////////////////////////////////////////////////////////////////////////////////
 let validWords = [];
 function fetchAndLogTextFile() {
   fetch('/allWords.txt')
@@ -62,9 +62,28 @@ function fetchAndLogTextFile() {
       console.error('Error fetching the text file:', error);
     });
 }
+let allAnswers = [];
+function fetchAndLogTextFile2() {
+  fetch('/allAnswers.txt')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(text => {
+      const lines = text.split(/\r\n|\n/);
+      lines.forEach((line, index) => {
+        allAnswers.push(`${line}`);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching the text file:', error);
+    });
+}
 
 fetchAndLogTextFile();
-
+fetchAndLogTextFile2();
 
 //VARIABLE INITIALIZATION////////////////////////////////////////////////////////////////////////////////////////////////////
 let globalBlur = false;
@@ -73,11 +92,15 @@ const RED = 'rgb(255, 0 ,0';
 const SOFTRED = 'rgb(100,44,44';
 const GREEN = 'rgb(43, 166, 55)';
 const YELLOW = 'rgb(201, 188, 40)';
+const BLUE = 'rgb(52, 103, 235)';
+const ORANGE = 'rgb(255, 128, 13)';
+const PURPLE = 'rgb(245, 32, 245)';
 const BLACK = 'rgb(0, 0, 0)';
 const DARKGRAY = 'rgb(23, 23, 23)';
 const LIGHTGRAY = 'rgb(44, 44, 44';
 const LIGHTLIGHTGRAY = 'rgb(100,100,100)';
 const WHITE = 'rgb(255, 255, 255';
+let gameModeColor = GREEN;
 let answer = "cameo";
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
@@ -130,10 +153,10 @@ function Content() {
     fontFamily:"'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif'",//pretty sure this isnt picking up everything
     fontSize: '32px',
     backgroundColor: BLACK,
-    color: RED,
+    color: gameModeColor,
     padding: '1rem',
     boxShadow: "0 2px 4px rgb(0, 0, 0, 0.1)",
-    border: '4px solid ' + RED,
+    border: '4px solid ' + gameModeColor,
     };
     return(
       <div style={style}>{text}</div>
@@ -212,7 +235,106 @@ function Content() {
     )
   }
   
- 
+
+
+
+  let todaysWordleStyle = {
+    width: '28vw',            
+    height: '4vh' ,         
+    backgroundColor: BLACK,
+    position:'fixed',
+    top: '10vh',              
+    left: '1vw',       
+    border: '4px solid ' + GREEN,
+    padding: '5px',
+    margin: '0px',
+    fontSize: '3vh',
+    alignItems: 'center',         // Centers items vertically
+    justifyContent: 'center',     // Centers items horizontally
+    textAlign: 'center',  
+    lineHeight: '1.2',    
+    color: GREEN,
+    borderRadius: '10px',
+  }
+
+  let archiveStyle = {
+    width: '28vw',            
+    height: '4vh' ,         
+    backgroundColor: BLACK,
+    position:'fixed',
+    top: '17vh',              
+    left: '1vw',       
+    border: '4px solid ' + BLUE,
+    padding: '5px',
+    margin: '0px',
+    fontSize: '3vh',
+    alignItems: 'center',         // Centers items vertically
+    justifyContent: 'center',     // Centers items horizontally
+    textAlign: 'center',  
+    lineHeight: '1.2',    
+    color: BLUE,
+    borderRadius: '10px',
+  }
+
+  let randomStyle = {
+    width: '28vw',            
+    height: '4vh' ,         
+    backgroundColor: BLACK,
+    position:'fixed',
+    top: '24vh',              
+    left: '1vw',       
+    border: '4px solid ' + PURPLE,
+    padding: '5px',
+    margin: '0px',
+    fontSize: '3vh',
+    alignItems: 'center',         // Centers items vertically
+    justifyContent: 'center',     // Centers items horizontally
+    textAlign: 'center',  
+    lineHeight: '1.2',    
+    color: PURPLE,
+    borderRadius: '10px',
+  }
+
+  let hardModeStyle = {
+    width: '28vw',            
+    height: '4vh' ,         
+    backgroundColor: BLACK,
+    position:'fixed',
+    top: '31vh',              
+    left: '1vw',       
+    border: '4px solid ' + RED,
+    padding: '5px',
+    margin: '0px',
+    fontSize: '3vh',
+    alignItems: 'center',         // Centers items vertically
+    justifyContent: 'center',     // Centers items horizontally
+    textAlign: 'center',  
+    lineHeight: '1.2',    
+    color: RED,
+    borderRadius: '10px',
+  }
+
+  let streakStyle = {
+    width: '28vw',            
+    height: '4vh' ,         
+    backgroundColor: BLACK,
+    position:'fixed',
+    top: '38vh',              
+    left: '1vw',       
+    border: '4px solid ' + ORANGE,
+    padding: '5px',
+    margin: '0px',
+    fontSize: '3vh',
+    alignItems: 'center',         // Centers items vertically
+    justifyContent: 'center',     // Centers items horizontally
+    textAlign: 'center',  
+    lineHeight: '1.2',    
+    color: ORANGE,
+    borderRadius: '10px',
+  }
+
+
+
   let Sidebar = () => {
     let sideStyle = {
       width: '30vw',            
@@ -221,20 +343,25 @@ function Content() {
       position:'fixed',
       top: -20,              
       left: -20,       
-      border: '4px solid ' + RED,
+      border: '4px solid ' + gameModeColor,
       padding: '5px',
       margin: '20px',
       fontSize: '8vh',
       alignItems: 'center',         // Centers items vertically
       justifyContent: 'center',     // Centers items horizontally
-      textAlign: 'center',  
-      lineHeight: '0.7',    
+      textAlign: 'center',     
       color: WHITE,
       opacity: opac,
       pointerEvents: canClickSideBar ? 'auto' : 'none'
     };
     return(
-      <div style={sideStyle}>{}</div>
+      <div style={sideStyle}>{}
+        <div style={todaysWordleStyle} onClick={handleTodaysWordle}>TODAY'S WORDLE</div>
+        <div style={archiveStyle} onClick={handleArchive}>ARCHIVE</div>
+        <div style={randomStyle} onClick={handleRandom}>RANDOM</div>
+        <div style={hardModeStyle} onClick={handleHardMode}>HARD MODE</div>
+        <div style={streakStyle} onClick={handleStreak}>STREAK</div>
+      </div>
     )
   }
   
@@ -244,23 +371,23 @@ function Content() {
       height: '2vh',          
       backgroundColor: BLACK,
       position: 'fixed',
-      top: '2vh',              
+      top: '2.5vh',              
       right: 'offsetVar',       
       transform: 'translateY(-50%)',
-      border: '4px solid ' + RED,
+      border: '4px solid ' + gameModeColor,
       padding: '10px',
       margin: '20px',
       borderRadius: '10px',
+      color: gameModeColor,
     };
     return(
-      <div style={style} onClick={handleClick}>{}</div>
+      <div style={style} onClick={handleClick}></div>
     )
   }
 
 
   //EVENT HANDLING////////////////////////////////////////////////////////////////////////////////////////////////////////////
   function handleClick(){
-    console.log('CLICK');
     if(opac === 0){
       setOpac(opac = 100);
     }
@@ -271,7 +398,6 @@ function Content() {
 
   function handleQwerty(input){
     if(currentGuess.length < 5 && (input.length === 1 && input.match(/[a-zA-Z]/))){
-      console.log("QWERTY CLICK");
       let newGuess = [...currentGuess, input.toUpperCase()];
       currentGuess = newGuess;
       board[index] = currentGuess;
@@ -281,11 +407,11 @@ function Content() {
 
   function handleBackspace(){
     currentGuess.pop();
-        let newGuess = [...currentGuess];//these lines are redundant but fix the backspace bug
-        console.log(newGuess);
-        currentGuess = newGuess;
-        board[index] = currentGuess;
-        setCurrentWord(currentWord = currentGuess); 
+    let newGuess = [...currentGuess];//these lines are redundant but fix the backspace bug
+    currentGuess = newGuess;
+    board[index] = currentGuess;
+    setCurrentWord(currentWord = currentGuess); 
+    colorArr[index] = [LIGHTGRAY, LIGHTGRAY, LIGHTGRAY, LIGHTGRAY, LIGHTGRAY];
   }
 
   function handleEnter(){
@@ -298,10 +424,8 @@ function Content() {
       index++;
       currentGuess = [];
       board[index] = currentGuess;
-      console.log("VALID GUESS");
     }
     else{
-      console.log("INVALID GUESS");
       colorArr[index] = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED];
       setColors(colors = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED]);
     }
@@ -318,9 +442,39 @@ function Content() {
         handleEnter();
       }  
   }
-    
-  
 
+  function handleTodaysWordle(){
+    gameModeColor = GREEN;
+    wipe();
+    handleClick(); 
+  }
+
+  function handleArchive(){
+    gameModeColor = BLUE;
+    wipe();
+    handleClick(); 
+  }
+    
+  function handleRandom(){
+    gameModeColor = PURPLE;
+
+    wipe();
+    answer = allAnswers[Math.floor(Math.random() * allAnswers.length)];
+    console.log(answer);
+    handleClick();
+  }
+
+  function handleHardMode(){
+    gameModeColor = RED;
+    wipe();
+    handleClick();
+  }
+
+  function handleStreak(){
+    gameModeColor = ORANGE;
+    wipe();
+    handleClick();
+  }
 
   //GUESS CHECK LOGIC//////////////////////////////////////////////////////////////////////////////////////////////////
   function processGuess(currentGuess){
@@ -381,9 +535,16 @@ function Content() {
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
       }
-      console.log(temp);
       return retArray;
 
+  }
+
+  function wipe(){
+    board = [[],[],[],[],[],[]];//2d array of every letter
+    colorArr = [[],[],[],[],[],[]];//2s array of board colors
+    qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
+    index = 0;//current row
+    currentGuess = [];//current guess
   }
 
 
@@ -394,7 +555,6 @@ function Content() {
       {background()}
       {title()}
       
-      {console.log("RERENDER")}
       {Square(14,10,board[0][0], colorArr[0][0])}
       {Square(14,1,board[0][1], colorArr[0][1])}
       {Square(14,-8,board[0][2], colorArr[0][2])}
@@ -430,10 +590,6 @@ function Content() {
       {Square(59,-8,board[5][2], colorArr[5][2])}
       {Square(59,-17,board[5][3], colorArr[5][3])}
       {Square(59,-26,board[5][4], colorArr[5][4])}
-
-      
-
-      
 
       {CalendarComponent()}
       
