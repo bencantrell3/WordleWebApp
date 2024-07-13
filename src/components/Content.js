@@ -40,6 +40,26 @@ const CalendarComponent = () => {
     </div>
   );
 };
+//currently printing two copies of every word because a line of the html has them all again. Also prints out some stuff at the end, STAGE, SAVED, WORDS, VALUE, ABOUT, ENTER. Also this is all built on temporary acces to a CORS proxy?
+let fetchedHtml = "";
+fetch('https://cors-anywhere.herokuapp.com/https://wordfinder.yourdictionary.com/wordle/answers/')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.text();
+  })
+  .then(html => {
+    console.log(html);
+    fetchedHtml = html;
+    const regex = /\b[A-Z]{5}\b/g; // Regex to match 5 consecutive uppercase letters
+    const matches = fetchedHtml.match(regex) || [];
+    console.log(matches); // Output the matches found
+  })
+  .catch(error => {
+    console.error('Error fetching the webpage:', error);
+  });
+
 
 
 //WORD LISTS SETUP///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +129,7 @@ let index = 0;//current row
 let currentGuess = [];//current guess
 let keyAdded = false;//used to validate an event listener is only added once
 let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]//qwerty board
-
+let hardModeWords = ["parer","mummy","jazzy","foyer","riper","joker","judge","nanny","piper","kazoo","verve","hunch","gawky","cower","sassy","fewer","coyly","dandy","froze","magma","daddy","prize","gully","baker","woken","glaze","homer","fluff","buggy","hunky","gauze","booze","howdy","borax","folly","brook","ember","expel","verge","forgo","vouch","goose","sever","ruder","taunt","enjoy","ionic","catch","revel","hound","guppy","hater","ninja","stash"];
 function Content() {
 
   if(!keyAdded)
@@ -467,6 +487,7 @@ function Content() {
   function handleHardMode(){
     gameModeColor = RED;
     wipe();
+    answer = hardModeWords[Math.floor(Math.random() * hardModeWords.length)];
     handleClick();
   }
 
