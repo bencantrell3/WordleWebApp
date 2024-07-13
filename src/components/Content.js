@@ -42,27 +42,31 @@ const CalendarComponent = () => {
 };
 //currently printing two copies of every word because a line of the html has them all again. Also prints out some stuff at the end, STAGE, SAVED, WORDS, VALUE, ABOUT, ENTER. Also this is all built on temporary acces to a CORS proxy?
 let fetchedHtml = "";
-let cigarCount = 0;
-fetch('https://corsproxy.io/?https://wordfinder.yourdictionary.com/wordle/answers/')
-  .then(response => {
+let archive = [];
+
+async function fetchData() {
+  try {
+    const response = await fetch('https://corsproxy.io/?https://wordfinder.yourdictionary.com/wordle/answers/');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    return response.text();
-  })
-  .then(html => {
-    console.log(html);
-    fetchedHtml = html;
+    fetchedHtml = await response.text();
+    console.log(fetchedHtml);
     const regex = /\b[A-Z]{5}\b/g; // Regex to match 5 consecutive uppercase letters
     const matches = fetchedHtml.match(regex) || [];
     matches.shift();
-    matches.splice(matches.indexOf("CIGAR")+1);
-    console.log(matches); // Output the matches found
-  })
-  .catch(error => {
+    matches.splice(matches.indexOf("CIGAR") + 1);
+    archive = matches;
+    console.log(archive); // Output the matches found
+  } catch (error) {
     console.error('Error fetching the webpage:', error);
-  });
+  }
+}
 
+// Call the async function
+fetchData();
+
+ 
 
 
 //WORD LISTS SETUP///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -469,6 +473,9 @@ function Content() {
   function handleTodaysWordle(){
     gameModeColor = GREEN;
     wipe();
+    console.log("ARCHIVE[0] = " + archive[0]);
+    answer = archive[0].toLowerCase();
+    console.log("ANSWER = " + answer);
     handleClick(); 
   }
 
