@@ -128,7 +128,7 @@ const LIGHTGRAY = 'rgb(44, 44, 44';
 const LIGHTLIGHTGRAY = 'rgb(100,100,100)';
 const WHITE = 'rgb(255, 255, 255';
 let gameModeColor = GREEN;
-let answer = "queta";
+let answer = "scoot";
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
 let qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
@@ -136,7 +136,7 @@ let index = 0;//current row
 let currentGuess = [];//current guess
 let keyAdded = false;//used to validate an event listener is only added once
 let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]//qwerty board
-let hardModeWords = ["parer","mummy","jazzy","foyer","riper","joker","judge","nanny","piper","kazoo","verve","hunch","gawky","cower","sassy","fewer","coyly","dandy","froze","magma","daddy","prize","gully","baker","woken","glaze","homer","fluff","buggy","hunky","gauze","booze","howdy","borax","folly","brook","ember","expel","verge","forgo","vouch","goose","sever","ruder","taunt","enjoy","ionic","catch","revel","hound","guppy","hater","ninja","stash"];
+let challengeModeWords = ["parer","mummy","jazzy","foyer","riper","joker","judge","nanny","piper","kazoo","verve","hunch","gawky","cower","sassy","fewer","coyly","dandy","froze","magma","daddy","prize","gully","baker","woken","glaze","homer","fluff","buggy","hunky","gauze","booze","howdy","borax","folly","brook","ember","expel","verge","forgo","vouch","goose","sever","ruder","taunt","enjoy","ionic","catch","revel","hound","guppy","hater","ninja","stash"];
 function Content() {
 
   if(!keyAdded)
@@ -322,7 +322,7 @@ function Content() {
     borderRadius: '10px',
   }
 
-  let hardModeStyle = {
+  let challengeModeStyle = {
     width: '28vw',            
     height: '4vh' ,         
     backgroundColor: BLACK,
@@ -386,7 +386,7 @@ function Content() {
         <div style={todaysWordleStyle} onClick={handleTodaysWordle}>TODAY'S WORDLE</div>
         <div style={archiveStyle} onClick={handleArchive}>ARCHIVE</div>
         <div style={randomStyle} onClick={handleRandom}>RANDOM</div>
-        <div style={hardModeStyle} onClick={handleHardMode}>HARD MODE</div>
+        <div style={challengeModeStyle} onClick={handleChallengeMode}>CHALLENGE MODE</div>
         <div style={streakStyle} onClick={handleStreak}>STREAK</div>
       </div>
     )
@@ -494,10 +494,10 @@ function Content() {
     handleClick();
   }
 
-  function handleHardMode(){
+  function handleChallengeMode(){
     gameModeColor = RED;
     wipe();
-    answer = hardModeWords[Math.floor(Math.random() * hardModeWords.length)];
+    answer = challengeModeWords[Math.floor(Math.random() * challengeModeWords.length)];
     handleClick();
   }
 
@@ -540,32 +540,34 @@ function Content() {
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
       }
+      console.log("AFTER GREEN: " + temp);
       //yellow logic
-      if(temp.indexOf(currentGuess[0]) !== -1){
+      if(temp.indexOf(currentGuess[0]) !== -1 && currentGuess[0] !== answer[0]){
         retArray[0] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[0].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[0])) + temp.substring(temp.indexOf(currentGuess[0])+1,temp.length);
       }
-      if(temp.indexOf(currentGuess[1]) !== -1){
+      if(temp.indexOf(currentGuess[1]) !== -1 && currentGuess[1] !== answer[1]){
         retArray[1] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[1].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[1])) + temp.substring(temp.indexOf(currentGuess[1])+1,temp.length);
       }
-      if(temp.indexOf(currentGuess[2]) !== -1){
+      if(temp.indexOf(currentGuess[2]) !== -1 && currentGuess[2] !== answer[2]){
         retArray[2] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[2].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[2])) + temp.substring(temp.indexOf(currentGuess[2])+1,temp.length);
       }
-      if(temp.indexOf(currentGuess[3]) !== -1){
+      if(temp.indexOf(currentGuess[3]) !== -1 && currentGuess[3] !== answer[3]){
         retArray[3] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[3].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[3])) + temp.substring(temp.indexOf(currentGuess[3])+1,temp.length);
       } 
-      if(temp.indexOf(currentGuess[4]) !== -1){
+      if(temp.indexOf(currentGuess[4]) !== -1 && currentGuess[4] !== answer[4]){
         retArray[4] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
       }
+      console.log("AFTER YELLOW: " + temp);
       return retArray;
 
   }
