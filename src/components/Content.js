@@ -42,7 +42,8 @@ const CalendarComponent = () => {
 };
 //currently printing two copies of every word because a line of the html has them all again. Also prints out some stuff at the end, STAGE, SAVED, WORDS, VALUE, ABOUT, ENTER. Also this is all built on temporary acces to a CORS proxy?
 let fetchedHtml = "";
-fetch('https://cors-anywhere.herokuapp.com/https://wordfinder.yourdictionary.com/wordle/answers/')
+let cigarCount = 0;
+fetch('https://corsproxy.io/?https://wordfinder.yourdictionary.com/wordle/answers/')
   .then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -54,6 +55,8 @@ fetch('https://cors-anywhere.herokuapp.com/https://wordfinder.yourdictionary.com
     fetchedHtml = html;
     const regex = /\b[A-Z]{5}\b/g; // Regex to match 5 consecutive uppercase letters
     const matches = fetchedHtml.match(regex) || [];
+    matches.shift();
+    matches.splice(matches.indexOf("CIGAR")+1);
     console.log(matches); // Output the matches found
   })
   .catch(error => {
@@ -121,7 +124,7 @@ const LIGHTGRAY = 'rgb(44, 44, 44';
 const LIGHTLIGHTGRAY = 'rgb(100,100,100)';
 const WHITE = 'rgb(255, 255, 255';
 let gameModeColor = GREEN;
-let answer = "cameo";
+let answer = "queta";
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
 let qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
