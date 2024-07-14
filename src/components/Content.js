@@ -3,6 +3,8 @@ import { useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';//calendar dependency
 import DatePicker from 'react-datepicker';//calendar dependency
 
+
+
 //CALENDAR: MAY NOT USE///////////////////////////////////////////////////////////////////////////////////////////////////////
 const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -121,6 +123,7 @@ fetchAndLogTextFile2();
 //VARIABLE INITIALIZATION////////////////////////////////////////////////////////////////////////////////////////////////////
 let globalBlur = false;
 let canClickSideBar = false;
+let canClickArchive = false;
 const RED = 'rgb(255, 0 ,0';
 const SOFTRED = 'rgb(100,44,44';
 const GREEN = 'rgb(43, 166, 55)';
@@ -145,8 +148,9 @@ let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H
 let challengeModeWords = ["parer","mummy","jazzy","foyer","riper","joker","judge","nanny","piper","kazoo","verve","hunch","gawky","cower","sassy","fewer","coyly","dandy","froze","magma","daddy","prize","gully","baker","woken","glaze","homer","fluff","buggy","hunky","gauze","booze","howdy","borax","folly","brook","ember","expel","verge","forgo","vouch","goose","sever","ruder","taunt","enjoy","ionic","catch","revel","hound","guppy","hater","ninja","stash"];
 function Content() {
 
-  if(!keyAdded)
+  if(!keyAdded){
     window.addEventListener('keydown', handleKeyPress);
+  }
 
   keyAdded = true;
 
@@ -154,6 +158,7 @@ function Content() {
   let [currentWord, setCurrentWord] = useState([]);
   let [colors, setColors] = useState([LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY]);
   let [opac, setOpac] = useState(0);
+  let [archiveOpac, setArchiveOpac] = useState(0);
   let [selectedOption, setSelectedOption] = useState('');
   //INLINE STYLING OF COMPONENTS///////////////////////////////////////////////////////////////////////////////////////////////
   let background = () => {
@@ -432,9 +437,12 @@ function Content() {
       margin: '20px',
       borderRadius: '10px',
       color: gameModeColor,
+      opacity: archiveOpac,
+      pointerEvents: canClickArchive ? 'auto' : 'none',
     }
     return(
       <select className="custom-select" style={style} onChange={handleChange}>
+      <option>Select a Puzzle</option>
       {optionElements}
     </select>
     )
@@ -510,8 +518,11 @@ function Content() {
 
   function handleArchive(){
     gameModeColor = BLUE;
-    wipe();
-    handleClick(); 
+    if(archiveOpac === 0){
+      setArchiveOpac(archiveOpac = 100);
+    }
+    else setArchiveOpac(archiveOpac = 0);
+    canClickArchive = !canClickArchive;
   }
     
   function handleRandom(){
@@ -543,7 +554,9 @@ function Content() {
     console.log("SELECTED OPTION: " + selectedOption);
     
     answer = selectedOption.toLowerCase();
-    //handleClick();
+    canClickArchive = false;
+    setArchiveOpac(archiveOpac = 0);
+    handleClick();
   };
 
   //GUESS CHECK LOGIC//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -696,7 +709,7 @@ function Content() {
 
       {Sidebar()}
       {button()}
-      {archiveMenu()}
+      {archiveOpac === 100 && archiveMenu()}
     </>
   )
 }
