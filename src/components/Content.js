@@ -48,7 +48,7 @@ let archive = [];
 let optionElements = [];
 async function fetchData() {
   try {
-    const response = await fetch('https://corsproxy.io/?https://wordfinder.yourdictionary.com/wordle/answers/');
+    const response = await fetch('https://corsproxy.io/?https://wordfinder.yourdictionary.com/wordle/answers/?' + new Date().getTime() + '');
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -58,9 +58,10 @@ async function fetchData() {
     const matches = fetchedHtml.match(regex) || [];
     matches.shift();//ignores the "CIGAR" in the blog post
     matches.splice(matches.indexOf("CIGAR") + 1);//removes the duplicate instances of all words
-    archive = matches.reverse(); 
+    archive = matches.reverse();
+    console.log(matches);
     optionElements = [];
-    for (let i = 0; i < archive.length; i++) {
+    for (let i = 0; i < archive.length; i++) { 
       optionElements.unshift(
         <option value={archive[i]}>{"Wordle #" + i}</option>
       );
@@ -137,7 +138,7 @@ const LIGHTGRAY = 'rgb(44, 44, 44';
 const LIGHTLIGHTGRAY = 'rgb(100,100,100)';
 const WHITE = 'rgb(255, 255, 255';
 let gameModeColor = GREEN;
-let answer = archive[archive.length-1].toLowerCase();
+let answer = archive[0].toLowerCase();
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
 let qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
@@ -514,8 +515,8 @@ function Content() {
   function handleTodaysWordle(){
     gameModeColor = GREEN;
     wipe();
-    console.log("ARCHIVE[0] = " + archive[0]);
-    answer = archive[0].toLowerCase();
+    console.log("ARCHIVE[0] = " + archive[archive.length-1]);
+    answer = archive[archive.length-1].toLowerCase();
     console.log("ANSWER = " + answer);
     handleClick(); 
   }
