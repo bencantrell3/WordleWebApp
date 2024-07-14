@@ -53,20 +53,20 @@ async function fetchData() {
       throw new Error('Network response was not ok');
     }
     fetchedHtml = await response.text();
-    console.log(fetchedHtml);
+    //console.log(fetchedHtml);
     const regex = /\b[A-Z]{5}\b/g; // Regex to match 5 consecutive uppercase letters
     const matches = fetchedHtml.match(regex) || [];
     matches.shift();//ignores the "CIGAR" in the blog post
     matches.splice(matches.indexOf("CIGAR") + 1);//removes the duplicate instances of all words
     archive = matches.reverse();
-    console.log(matches);
+    //console.log(matches);
     optionElements = [];
     for (let i = 0; i < archive.length; i++) { 
       optionElements.unshift(
         <option value={archive[i]}>{"Wordle #" + i}</option>
       );
     }
-    console.log(archive); // Output the matches found
+    //console.log(archive); // Output the matches found
   } catch (error) {
     console.error('Error fetching the webpage:', error);
   }
@@ -74,7 +74,7 @@ async function fetchData() {
 
 // Call the async function
 await fetchData();
-console.log("LOOK FOR THIS: " + archive[0]);
+//console.log("LOOK FOR THIS: " + archive[0]);
  
 
 
@@ -138,7 +138,8 @@ const LIGHTGRAY = 'rgb(44, 44, 44';
 const LIGHTLIGHTGRAY = 'rgb(100,100,100)';
 const WHITE = 'rgb(255, 255, 255';
 let gameModeColor = GREEN;
-let answer = archive[0].toLowerCase();
+let streakCount = 0;
+let answer = archive[archive.length-1].toLowerCase();
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
 let qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
@@ -515,9 +516,9 @@ function Content() {
   function handleTodaysWordle(){
     gameModeColor = GREEN;
     wipe();
-    console.log("ARCHIVE[0] = " + archive[archive.length-1]);
+    //console.log("ARCHIVE[0] = " + archive[archive.length-1]);
     answer = archive[archive.length-1].toLowerCase();
-    console.log("ANSWER = " + answer);
+    //console.log("ANSWER = " + answer);
     handleClick(); 
   }
 
@@ -535,7 +536,7 @@ function Content() {
 
     wipe();
     answer = allAnswers[Math.floor(Math.random() * allAnswers.length)];
-    console.log(answer);
+    //console.log(answer);
     handleClick();
   }
 
@@ -556,7 +557,7 @@ function Content() {
     wipe();
     
     setSelectedOption(selectedOption = event.target.value);
-    console.log("SELECTED OPTION: " + selectedOption);
+    //console.log("SELECTED OPTION: " + selectedOption);
     
     answer = selectedOption.toLowerCase();
     canClickArchive = false;
@@ -628,6 +629,7 @@ function Content() {
   }
 
   function wipe(){
+    streakCount = 0;
     board = [[],[],[],[],[],[]];//2d array of every letter
     colorArr = [[],[],[],[],[],[]];//2s array of board colors
     qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
