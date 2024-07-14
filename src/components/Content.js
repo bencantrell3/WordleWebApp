@@ -40,10 +40,10 @@ const CalendarComponent = () => {
     </div>
   );
 };
-//currently printing two copies of every word because a line of the html has them all again. Also prints out some stuff at the end, STAGE, SAVED, WORDS, VALUE, ABOUT, ENTER. Also this is all built on temporary acces to a CORS proxy?
+
 let fetchedHtml = "";
 let archive = [];
-
+let optionElements = [];
 async function fetchData() {
   try {
     const response = await fetch('https://corsproxy.io/?https://wordfinder.yourdictionary.com/wordle/answers/');
@@ -54,9 +54,15 @@ async function fetchData() {
     console.log(fetchedHtml);
     const regex = /\b[A-Z]{5}\b/g; // Regex to match 5 consecutive uppercase letters
     const matches = fetchedHtml.match(regex) || [];
-    matches.shift();
-    matches.splice(matches.indexOf("CIGAR") + 1);
-    archive = matches;
+    matches.shift();//ignores the "CIGAR" in the blog post
+    matches.splice(matches.indexOf("CIGAR") + 1);//removes the duplicate instances of all words
+    archive = matches.reverse(); 
+    optionElements = [];
+    for (let i = 0; i < archive.length; i++) {
+      optionElements.unshift(
+        <option value={archive[i]}>{"Wordle #" + i}</option>
+      );
+    }
     console.log(archive); // Output the matches found
   } catch (error) {
     console.error('Error fetching the webpage:', error);
@@ -64,8 +70,8 @@ async function fetchData() {
 }
 
 // Call the async function
-fetchData();
-
+await fetchData();
+console.log("LOOK FOR THIS: " + archive[0]);
  
 
 
@@ -128,7 +134,7 @@ const LIGHTGRAY = 'rgb(44, 44, 44';
 const LIGHTLIGHTGRAY = 'rgb(100,100,100)';
 const WHITE = 'rgb(255, 255, 255';
 let gameModeColor = GREEN;
-let answer = "scoot";
+let answer = archive[archive.length-1].toLowerCase();
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
 let qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
@@ -148,7 +154,7 @@ function Content() {
   let [currentWord, setCurrentWord] = useState([]);
   let [colors, setColors] = useState([LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY]);
   let [opac, setOpac] = useState(0);
-
+  let [selectedOption, setSelectedOption] = useState('');
   //INLINE STYLING OF COMPONENTS///////////////////////////////////////////////////////////////////////////////////////////////
   let background = () => {
     let style = {
@@ -411,7 +417,30 @@ function Content() {
       <div style={style} onClick={handleClick}></div>
     )
   }
+  
+  let archiveMenu = () => {
+    let style = {
+      width: '20vh',            
+      height: '2vh',          
+      backgroundColor: WHITE,
+      position: 'fixed',
+      top: '0vh',              
+      left: '50vh',       
+      transform: 'translateY(-50%)',
+      border: '4px solid ' + gameModeColor,
+      padding: '10px',
+      margin: '20px',
+      borderRadius: '10px',
+      color: gameModeColor,
+    }
+    return(
+      <select className="custom-select" style={style} onChange={handleChange}>
+      {optionElements}
+    </select>
+    )
+  }
 
+  
 
   //EVENT HANDLING////////////////////////////////////////////////////////////////////////////////////////////////////////////
   function handleClick(){
@@ -507,6 +536,16 @@ function Content() {
     handleClick();
   }
 
+  const handleChange = (event) => {
+    wipe();
+    
+    setSelectedOption(selectedOption = event.target.value);
+    console.log("SELECTED OPTION: " + selectedOption);
+    
+    answer = selectedOption.toLowerCase();
+    //handleClick();
+  };
+
   //GUESS CHECK LOGIC//////////////////////////////////////////////////////////////////////////////////////////////////
   function processGuess(currentGuess){
       let retArray = [DARKGRAY,DARKGRAY,DARKGRAY,DARKGRAY,DARKGRAY];
@@ -540,7 +579,6 @@ function Content() {
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
       }
-      console.log("AFTER GREEN: " + temp);
       //yellow logic
       if(temp.indexOf(currentGuess[0]) !== -1 && currentGuess[0] !== answer[0]){
         retArray[0] = YELLOW;
@@ -567,7 +605,6 @@ function Content() {
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
       }
-      console.log("AFTER YELLOW: " + temp);
       return retArray;
 
   }
@@ -659,6 +696,7 @@ function Content() {
 
       {Sidebar()}
       {button()}
+      {archiveMenu()}
     </>
   )
 }
