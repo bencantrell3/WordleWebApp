@@ -395,7 +395,7 @@ function Content() {
     return(
       <div style={sideStyle}>{}
         <div style={todaysWordleStyle} onClick={handleTodaysWordle}>TODAY'S WORDLE</div>
-        <div style={archiveStyle} onClick={handleArchive}>ARCHIVE</div>
+        {archiveMenu}
         <div style={randomStyle} onClick={handleRandom}>RANDOM</div>
         <div style={challengeModeStyle} onClick={handleChallengeMode}>CHALLENGE MODE</div>
         <div style={streakStyle} onClick={handleStreak}>STREAK</div>
@@ -425,24 +425,28 @@ function Content() {
   
   let archiveMenu = () => {
     let style = {
-      width: '20vh',            
-      height: '2vh',          
-      backgroundColor: WHITE,
-      position: 'fixed',
-      top: '0vh',              
-      left: '50vh',       
-      transform: 'translateY(-50%)',
-      border: '4px solid ' + gameModeColor,
-      padding: '10px',
-      margin: '20px',
+      width: '29.3vw',            
+      height: '6.7vh' ,         
+      backgroundColor: BLACK,
+      position:'fixed',
+      top: '17vh',              
+      left: '1vw',       
+      border: '4px solid ' + BLUE,
+      padding: '0vh',
+      margin: '0vh',
+      fontSize: '3vh',
+      alignItems: 'center',         // Centers items vertically
+      justifyContent: 'center',     // Centers items horizontally
+      textAlign: 'center',  
+      //lineHeight: '0.9',    
+      color: BLUE,
       borderRadius: '10px',
-      color: gameModeColor,
-      opacity: archiveOpac,
-      pointerEvents: canClickArchive ? 'auto' : 'none',
+      opacity: opac,
+      pointerEvents: canClickSideBar ? 'auto' : 'none',
     }
     return(
       <select className="custom-select" style={style} onChange={handleChange}>
-      <option>Select a Puzzle</option>
+      <option>ARCHIVE</option>
       {optionElements}
     </select>
     )
@@ -709,7 +713,7 @@ function Content() {
 
       {Sidebar()}
       {button()}
-      {archiveOpac === 100 && archiveMenu()}
+      {opac === 100 && archiveMenu()}
     </>
   )
 }
