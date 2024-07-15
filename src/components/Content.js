@@ -125,6 +125,7 @@ fetchAndLogTextFile2();
 let globalBlur = false;
 let canClickSideBar = false;
 let canClickArchive = false;
+let locked = false;
 const RED = 'rgb(255, 0 ,0';
 const SOFTRED = 'rgb(100,44,44';
 const GREEN = 'rgb(43, 166, 55)';
@@ -147,7 +148,7 @@ let index = 0;//current row
 let currentGuess = [];//current guess
 let keyAdded = false;//used to validate an event listener is only added once
 let qwertyList = ["Q","W","E","R","T","Y","U","I","O","P","A","S","D","F","G","H","J","K","L","ENTER","Z","X","C","V","B","N","M","BACK"]//qwerty board
-let challengeModeWords = ["parer","mummy","jazzy","foyer","riper","joker","judge","nanny","piper","kazoo","verve","hunch","gawky","cower","sassy","fewer","coyly","dandy","froze","magma","daddy","prize","gully","baker","woken","glaze","homer","fluff","buggy","hunky","gauze","booze","howdy","borax","folly","brook","ember","expel","verge","forgo","vouch","goose","sever","ruder","taunt","enjoy","ionic","catch","revel","hound","guppy","hater","ninja","stash"];
+let challengeWords = ["parer","mummy","jazzy","foyer","riper","joker","judge","nanny","piper","kazoo","verve","hunch","gawky","cower","sassy","fewer","coyly","dandy","froze","magma","daddy","prize","gully","baker","woken","glaze","homer","fluff","buggy","hunky","gauze","booze","howdy","borax","folly","brook","ember","expel","verge","forgo","vouch","goose","sever","ruder","taunt","enjoy","ionic","catch","revel","hound","guppy","hater","ninja","stash"];
 function Content() {
 
   if(!keyAdded){
@@ -297,25 +298,6 @@ function Content() {
     borderRadius: '10px',
   }
 
-  let archiveStyle = {
-    width: '28vw',            
-    height: '4vh' ,         
-    backgroundColor: BLACK,
-    position:'fixed',
-    top: '17vh',              
-    left: '1vw',       
-    border: '4px solid ' + BLUE,
-    padding: '5px',
-    margin: '0px',
-    fontSize: '3vh',
-    alignItems: 'center',         // Centers items vertically
-    justifyContent: 'center',     // Centers items horizontally
-    textAlign: 'center',  
-    lineHeight: '1.2',    
-    color: BLUE,
-    borderRadius: '10px',
-  }
-
   let randomStyle = {
     width: '28vw',            
     height: '4vh' ,         
@@ -335,7 +317,7 @@ function Content() {
     borderRadius: '10px',
   }
 
-  let challengeModeStyle = {
+  let challengeStyle = {
     width: '28vw',            
     height: '4vh' ,         
     backgroundColor: BLACK,
@@ -399,7 +381,7 @@ function Content() {
         <div style={todaysWordleStyle} onClick={handleTodaysWordle}>TODAY'S WORDLE</div>
         {archiveMenu}
         <div style={randomStyle} onClick={handleRandom}>RANDOM</div>
-        <div style={challengeModeStyle} onClick={handleChallengeMode}>CHALLENGE MODE</div>
+        <div style={challengeStyle} onClick={handleChallenge}>CHALLENGE</div>
         <div style={streakStyle} onClick={handleStreak}>STREAK</div>
       </div>
     )
@@ -431,8 +413,10 @@ function Content() {
   
   let gameModeTitle = () => {
     let text = '';
+    let fontVar = '1.5vh';
     if(gameModeColor === GREEN){
       text = "TODAY'S WORDLE";
+      fontVar = '1.4vh';
     }
     else if(gameModeColor === BLUE){
       text = "ARCHIVE";
@@ -441,7 +425,7 @@ function Content() {
       text = "RANDOM";
     }
     else if(gameModeColor === RED){
-      text = "CHALLENGE MODE";
+      text = "CHALLENGE";
     }
     else if(gameModeColor === ORANGE){
       text = "STREAK";
@@ -449,7 +433,7 @@ function Content() {
     let style = {
       width: '12vw',            
       height: '2vh',          
-      fontSize: '1.5vh',
+      fontSize: fontVar,
       alignItems: 'center',         // Centers items vertically
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',
@@ -468,6 +452,31 @@ function Content() {
       <div style={style} onClick={handleClick}>{text}</div>
     )
   }
+
+  let endGameMessage = () => {
+    let style = {
+      width: '6vh',            
+      height: '2vh' ,         
+      backgroundColor: LIGHTGRAY,
+      position:'fixed',
+      top: '67vh',              
+      right: 'calc(50% + ' + -5 + 'vh)',
+      transform: 'translateY(-50%)',
+      border: '4px solid ' + gameModeColor,
+      //padding: '5px',
+      //margin: '20px',
+      fontSize: '8vh',
+      alignItems: 'center',         // Centers items vertically
+      justifyContent: 'center',     // Centers items horizontally
+      textAlign: 'center',  
+      lineHeight: '0.7',    
+      color: WHITE,
+    };
+    return(
+      <div style={style}></div>
+    )
+  }
+
   let archiveMenu = () => {
     let style = {
       width: '29.3vw',            
@@ -510,6 +519,8 @@ function Content() {
   }
 
   function handleQwerty(input){
+    if(locked)
+      return;
     if(currentGuess.length < 5 && (input.length === 1 && input.match(/[a-zA-Z]/))){
       let newGuess = [...currentGuess, input.toUpperCase()];
       currentGuess = newGuess;
@@ -583,10 +594,10 @@ function Content() {
     handleClick();
   }
 
-  function handleChallengeMode(){
+  function handleChallenge(){
     gameModeColor = RED;
     wipe();
-    answer = challengeModeWords[Math.floor(Math.random() * challengeModeWords.length)];
+    answer = challengeWords[Math.floor(Math.random() * challengeWords.length)];
     handleClick();
   }
 
@@ -641,6 +652,9 @@ function Content() {
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = GREEN;
         temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
       }
+      if(temp === ''){
+        handleWin();
+      }
       //yellow logic
       if(temp.indexOf(currentGuess[0]) !== -1 && currentGuess[0] !== answer[0]){
         retArray[0] = YELLOW;
@@ -672,12 +686,16 @@ function Content() {
   }
 
   function wipe(){
-    streakCount = 0;
+    locked = false;
     board = [[],[],[],[],[],[]];//2d array of every letter
     colorArr = [[],[],[],[],[],[]];//2s array of board colors
     qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
     index = 0;//current row
     currentGuess = [];//current guess
+  }
+
+  function handleWin(){
+    locked = true;
   }
 
 
@@ -760,6 +778,7 @@ function Content() {
       {Sidebar()}
       {button()}
       {gameModeTitle()}
+      {endGameMessage()}
       {opac === 100 && archiveMenu()}
     </>
   )
