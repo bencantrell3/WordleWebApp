@@ -407,12 +407,16 @@ function Content() {
   
   let button = () => {
     let style = {
-      width: '4vh',            
+      width: '12vw',            
       height: '2vh',          
+      fontSize: '1.5vh',
+      alignItems: 'center',         // Centers items vertically
+      justifyContent: 'center',     // Centers items horizontally
+      textAlign: 'center',
       backgroundColor: BLACK,
       position: 'fixed',
       top: '2.5vh',              
-      right: 'offsetVar',       
+      //right: 'offsetVar',       
       transform: 'translateY(-50%)',
       border: '4px solid ' + gameModeColor,
       padding: '10px',
@@ -421,10 +425,49 @@ function Content() {
       color: gameModeColor,
     };
     return(
-      <div style={style} onClick={handleClick}></div>
+      <div style={style} onClick={handleClick}>GAME MODES</div>
     )
   }
   
+  let gameModeTitle = () => {
+    let text = '';
+    if(gameModeColor === GREEN){
+      text = "TODAY'S WORDLE";
+    }
+    else if(gameModeColor === BLUE){
+      text = "ARCHIVE";
+    }
+    else if(gameModeColor === PURPLE){
+      text = "RANDOM";
+    }
+    else if(gameModeColor === RED){
+      text = "CHALLENGE MODE";
+    }
+    else if(gameModeColor === ORANGE){
+      text = "STREAK";
+    }
+    let style = {
+      width: '12vw',            
+      height: '2vh',          
+      fontSize: '1.5vh',
+      alignItems: 'center',         // Centers items vertically
+      justifyContent: 'center',     // Centers items horizontally
+      textAlign: 'center',
+      backgroundColor: BLACK,
+      position: 'fixed',
+      top: '2.5vh',              
+      right: '-0.5vw',       
+      transform: 'translateY(-50%)',
+      border: '4px solid ' + gameModeColor,
+      padding: '10px',
+      margin: '20px',
+      borderRadius: '10px',
+      color: gameModeColor,
+    };
+    return(
+      <div style={style} onClick={handleClick}>{text}</div>
+    )
+  }
   let archiveMenu = () => {
     let style = {
       width: '29.3vw',            
@@ -555,7 +598,7 @@ function Content() {
 
   const handleChange = (event) => {
     wipe();
-    
+    gameModeColor = BLUE;
     setSelectedOption(selectedOption = event.target.value);
     //console.log("SELECTED OPTION: " + selectedOption);
     
@@ -716,6 +759,7 @@ function Content() {
 
       {Sidebar()}
       {button()}
+      {gameModeTitle()}
       {opac === 100 && archiveMenu()}
     </>
   )
