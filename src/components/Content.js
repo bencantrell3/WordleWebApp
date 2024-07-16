@@ -188,14 +188,14 @@ function Content() {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '5vh',
+    height: '8vh',
     top: '0',
     width: '100%',
     fontFamily:"'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif'",//pretty sure this isnt picking up everything
-    fontSize: '32px',
+    fontSize: '4vh',
     backgroundColor: BLACK,
     color: gameModeColor,
-    padding: '1rem',
+    //padding: '1rem',
     boxShadow: "0 2px 4px rgb(0, 0, 0, 0.1)",
     border: '4px solid ' + gameModeColor,
     };
@@ -213,8 +213,8 @@ function Content() {
     let offsetVar = 'calc(50% + ' + offset + 'vh)';
     let style = {
       filter: blurVar,
-      width: '3vh',            
-      height: '4vh' ,         
+      width: '5vh',            
+      height: '6vh' ,         
       backgroundColor: colorArg,
       color: WHITE,
       position:'fixed',
@@ -222,8 +222,8 @@ function Content() {
       right: offsetVar, 
       transform: 'translateY(-50%)',
       border: '0.5vh solid ' + DARKGRAY,
-      padding: '10px',
-      margin: '20px',
+      //padding: '10px',
+      //margin: '20px',
       borderRadius: '10px',
       fontSize: ''+ size + 'px',
       display: 'flex',
@@ -254,21 +254,21 @@ function Content() {
     let offsetVar = 'calc(50% + ' + offset + 'vh)';
     let style = {
       filter: blurVar,
-      width: '6vh',            
-      height: '6vh' ,         
+      width: '7.4vh',            
+      height: '7.4vh' ,         
       backgroundColor: colorX,
       position:'fixed',
       top: topVar,              
       right: offsetVar,       
       transform: 'translateY(-50%)',
       border: '4px solid ' + DARKGRAY,
-      padding: '5px',
-      margin: '20px',
+      //padding: '5px',
+      //margin: '20px',
       fontSize: '8vh',
       alignItems: 'center',         // Centers items vertically
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',  
-      lineHeight: '0.7',    
+      lineHeight: '0.8',    
       color: WHITE,
     };
     return(
@@ -455,25 +455,24 @@ function Content() {
 
   let endGameMessage = () => {
     let style = {
-      width: '6vh',            
-      height: '2vh' ,         
+      width: '44vh',            
+      height: '4vh' ,         
       backgroundColor: LIGHTGRAY,
       position:'fixed',
-      top: '67vh',              
-      right: 'calc(50% + ' + -5 + 'vh)',
+      top: '66vh',              
+      left: 'calc(50% + ' + -22.5 + 'vh)',
       transform: 'translateY(-50%)',
       border: '4px solid ' + gameModeColor,
-      //padding: '5px',
-      //margin: '20px',
-      fontSize: '8vh',
+      fontSize: '2vh',
       alignItems: 'center',         // Centers items vertically
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',  
-      lineHeight: '0.7',    
+      lineHeight: '1.9',    
       color: WHITE,
+      borderRadius: '5px'
     };
     return(
-      <div style={style}></div>
+      <div style={style}>The Word was: {answer.toUpperCase()}. Press Enter to Play Again</div>
     )
   }
 
@@ -706,79 +705,82 @@ function Content() {
       {background()}
       {title()}
       
-      {Square(14,10,board[0][0], colorArr[0][0])}
-      {Square(14,1,board[0][1], colorArr[0][1])}
-      {Square(14,-8,board[0][2], colorArr[0][2])}
-      {Square(14,-17,board[0][3], colorArr[0][3])}
-      {Square(14,-26,board[0][4], colorArr[0][4])}
+      {Square(14,14,board[0][0], colorArr[0][0])}
+      {Square(14,5,board[0][1], colorArr[0][1])}
+      {Square(14,-4,board[0][2], colorArr[0][2])}
+      {Square(14,-13,board[0][3], colorArr[0][3])}
+      {Square(14,-22,board[0][4], colorArr[0][4])}
 
-      {Square(23,10,board[1][0], colorArr[1][0])}
-      {Square(23,1,board[1][1], colorArr[1][1])}
-      {Square(23,-8,board[1][2], colorArr[1][2])}
-      {Square(23,-17,board[1][3], colorArr[1][3])}
-      {Square(23,-26,board[1][4], colorArr[1][4])}
-      
-      {Square(32,10,board[2][0], colorArr[2][0])}
-      {Square(32,1,board[2][1], colorArr[2][1])}
-      {Square(32,-8,board[2][2], colorArr[2][2])}
-      {Square(32,-17,board[2][3], colorArr[2][3])}
-      {Square(32,-26,board[2][4], colorArr[2][4])}
+      {Square(23,14,board[1][0], colorArr[1][0])}
+      {Square(23,5,board[1][1], colorArr[1][1])}
+      {Square(23,-4,board[1][2], colorArr[1][2])}
+      {Square(23,-13,board[1][3], colorArr[1][3])}
+      {Square(23,-22,board[1][4], colorArr[1][4])}
 
-      {Square(41,10,board[3][0], colorArr[3][0])}
-      {Square(41,1,board[3][1], colorArr[3][1])}
-      {Square(41,-8,board[3][2], colorArr[3][2])}
-      {Square(41,-17,board[3][3], colorArr[3][3])}
-      {Square(41,-26,board[3][4], colorArr[3][4])}
+      {Square(32,14,board[2][0], colorArr[2][0])}
+      {Square(32,5,board[2][1], colorArr[2][1])}
+      {Square(32,-4,board[2][2], colorArr[2][2])}
+      {Square(32,-13,board[2][3], colorArr[2][3])}
+      {Square(32,-22,board[2][4], colorArr[2][4])}
 
-      {Square(50,10,board[4][0], colorArr[4][0])}
-      {Square(50,1,board[4][1], colorArr[4][1])}
-      {Square(50,-8,board[4][2], colorArr[4][2])}
-      {Square(50,-17,board[4][3], colorArr[4][3])}
-      {Square(50,-26,board[4][4], colorArr[4][4])}
+      {Square(41,14,board[3][0], colorArr[3][0])}
+      {Square(41,5,board[3][1], colorArr[3][1])}
+      {Square(41,-4,board[3][2], colorArr[3][2])}
+      {Square(41,-13,board[3][3], colorArr[3][3])}
+      {Square(41,-22,board[3][4], colorArr[3][4])}
 
-      {Square(59,10,board[5][0], colorArr[5][0])}
-      {Square(59,1,board[5][1], colorArr[5][1])}
-      {Square(59,-8,board[5][2], colorArr[5][2])}
-      {Square(59,-17,board[5][3], colorArr[5][3])}
-      {Square(59,-26,board[5][4], colorArr[5][4])}
+      {Square(50,14,board[4][0], colorArr[4][0])}
+      {Square(50,5,board[4][1], colorArr[4][1])}
+      {Square(50,-4,board[4][2], colorArr[4][2])}
+      {Square(50,-13,board[4][3], colorArr[4][3])}
+      {Square(50,-22,board[4][4], colorArr[4][4])}
+
+      {Square(59,14,board[5][0], colorArr[5][0])}
+      {Square(59,5,board[5][1], colorArr[5][1])}
+      {Square(59,-4,board[5][2], colorArr[5][2])}
+      {Square(59,-13,board[5][3], colorArr[5][3])}
+      {Square(59,-22,board[5][4], colorArr[5][4])}
+
 
       {CalendarComponent()}
       
-      {qwerty(71, 28.9, qwertyList[0],30, qwertyColors[0])}
-      {qwerty(71, 20.9, qwertyList[1],30, qwertyColors[1])}
-      {qwerty(71, 12.9, qwertyList[2],30, qwertyColors[2])}
-      {qwerty(71, 4.9, qwertyList[3],30, qwertyColors[3])}
-      {qwerty(71, -3.1, qwertyList[4],30, qwertyColors[4])}
-      {qwerty(71, -11.1, qwertyList[5],30, qwertyColors[5])}
-      {qwerty(71, -19.1, qwertyList[6],30, qwertyColors[6])}
-      {qwerty(71, -27.1, qwertyList[7],30, qwertyColors[7])}
-      {qwerty(71, -35.1, qwertyList[8],30, qwertyColors[8])}
-      {qwerty(71, -43.1, qwertyList[9],30, qwertyColors[9])}
+      {qwerty(73, 32.9, qwertyList[0],30, qwertyColors[0])}
+      {qwerty(73, 24.9, qwertyList[1],30, qwertyColors[1])}
+      {qwerty(73, 16.9, qwertyList[2],30, qwertyColors[2])}
+      {qwerty(73, 8.9, qwertyList[3],30, qwertyColors[3])}
+      {qwerty(73, 0.9, qwertyList[4],30, qwertyColors[4])}
+      {qwerty(73, -7.1, qwertyList[5],30, qwertyColors[5])}
+      {qwerty(73, -15.1, qwertyList[6],30, qwertyColors[6])}
+      {qwerty(73, -23.1, qwertyList[7],30, qwertyColors[7])}
+      {qwerty(73, -31.1, qwertyList[8],30, qwertyColors[8])}
+      {qwerty(73, -39.1, qwertyList[9],30, qwertyColors[9])}
 
-      {qwerty(80, 24.8, qwertyList[10],30, qwertyColors[10])}
-      {qwerty(80, 16.8, qwertyList[11],30, qwertyColors[11])}
-      {qwerty(80, 8.8, qwertyList[12],30, qwertyColors[12])}
-      {qwerty(80, 0.8, qwertyList[13],30, qwertyColors[13])}
-      {qwerty(80, -7.2, qwertyList[14],30, qwertyColors[14])}
-      {qwerty(80, -15.2, qwertyList[15],30, qwertyColors[15])}
-      {qwerty(80, -23.2, qwertyList[16],30, qwertyColors[16])}
-      {qwerty(80, -31.2, qwertyList[17],30, qwertyColors[17])}
-      {qwerty(80, -39.2, qwertyList[18],30, qwertyColors[18])}
+      {qwerty(82, 28.8, qwertyList[10],30, qwertyColors[10])}
+      {qwerty(82, 20.8, qwertyList[11],30, qwertyColors[11])}
+      {qwerty(82, 12.8, qwertyList[12],30, qwertyColors[12])}
+      {qwerty(82, 4.8, qwertyList[13],30, qwertyColors[13])}
+      {qwerty(82, -3.2, qwertyList[14],30, qwertyColors[14])}
+      {qwerty(82, -11.2, qwertyList[15],30, qwertyColors[15])}
+      {qwerty(82, -19.2, qwertyList[16],30, qwertyColors[16])}
+      {qwerty(82, -27.2, qwertyList[17],30, qwertyColors[17])}
+      {qwerty(82, -35.2, qwertyList[18],30, qwertyColors[18])}
 
-      {qwerty(89, 24.8, qwertyList[19],15, qwertyColors[19])}
-      {qwerty(89, 16.8, qwertyList[20],30, qwertyColors[20])}
-      {qwerty(89, 8.8, qwertyList[21],30, qwertyColors[21])}
-      {qwerty(89, 0.8, qwertyList[22],30, qwertyColors[22])}
-      {qwerty(89, -7.2, qwertyList[23],30, qwertyColors[23])}
-      {qwerty(89, -15.2, qwertyList[24],30, qwertyColors[24])}
-      {qwerty(89, -23.2, qwertyList[25],30, qwertyColors[25])}
-      {qwerty(89, -31.2, qwertyList[26],30, qwertyColors[26])}
-      {qwerty(89, -39.2, qwertyList[27],15, qwertyColors[27])}
+      {qwerty(91, 28.8, qwertyList[19],15, qwertyColors[19])}
+      {qwerty(91, 20.8, qwertyList[20],30, qwertyColors[20])}
+      {qwerty(91, 12.8, qwertyList[21],30, qwertyColors[21])}
+      {qwerty(91, 4.8, qwertyList[22],30, qwertyColors[22])}
+      {qwerty(91, -3.2, qwertyList[23],30, qwertyColors[23])}
+      {qwerty(91, -11.2, qwertyList[24],30, qwertyColors[24])}
+      {qwerty(91, -19.2, qwertyList[25],30, qwertyColors[25])}
+      {qwerty(91, -27.2, qwertyList[26],30, qwertyColors[26])}
+      {qwerty(91, -35.2, qwertyList[27],15, qwertyColors[27])}
+
+
 
       {Sidebar()}
       {button()}
       {gameModeTitle()}
-      {endGameMessage()}
+      {locked && endGameMessage()}
       {opac === 100 && archiveMenu()}
     </>
   )
