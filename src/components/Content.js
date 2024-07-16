@@ -139,7 +139,6 @@ const LIGHTGRAY = 'rgb(44, 44, 44';
 const LIGHTLIGHTGRAY = 'rgb(100,100,100)';
 const WHITE = 'rgb(255, 255, 255';
 let gameModeColor = GREEN;
-let streakCount = 0;
 let answer = archive[archive.length-1].toLowerCase();
 let board = [[],[],[],[],[],[]];//2d array of every letter
 let colorArr = [[],[],[],[],[],[]];//2s array of board colors
@@ -163,6 +162,7 @@ function Content() {
   let [opac, setOpac] = useState(0);
   let [archiveOpac, setArchiveOpac] = useState(0);
   let [selectedOption, setSelectedOption] = useState('');
+  let [streakCount, setStreakCount] = useState(0);
   //INLINE STYLING OF COMPONENTS///////////////////////////////////////////////////////////////////////////////////////////////
   let background = () => {
     let style = {
@@ -276,7 +276,36 @@ function Content() {
     )
   }
   
-
+  let streakSquare = (top, offset, letter, colorX) => {
+    let blurVar = '';
+    if(globalBlur){
+      blurVar = 'blur(5px)';
+    }
+    let topVar = '' + top + 'vh';
+    let offsetVar = 'calc(50% + ' + offset + 'vh)';
+    let style = {
+      filter: blurVar,
+      width: '7.4vh',            
+      height: '7.4vh' ,         
+      backgroundColor: colorX,
+      position:'fixed',
+      top: topVar,              
+      right: offsetVar,       
+      transform: 'translateY(-50%)',
+      border: '4px solid ' + ORANGE,
+      //padding: '5px',
+      //margin: '20px',
+      fontSize: '8vh',
+      alignItems: 'center',         // Centers items vertically
+      justifyContent: 'center',     // Centers items horizontally
+      textAlign: 'center',  
+      lineHeight: '0.8',    
+      color: WHITE,
+    };
+    return(
+      <div style={style}>{letter}</div>
+    )
+  }
 
 
   let todaysWordleStyle = {
@@ -673,6 +702,9 @@ function Content() {
         temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
       }
       if(temp === ''){
+        if(gameModeColor === ORANGE){
+          setStreakCount(streakCount = streakCount+1);
+        }
         handleEnd();
       }
       //yellow logic
@@ -700,6 +732,11 @@ function Content() {
         retArray[4] = YELLOW;
         qwertyColors[qwertyList.indexOf(currentGuess[4].toUpperCase())] = YELLOW;
         temp = temp.substring(0,temp.indexOf(currentGuess[4])) + temp.substring(temp.indexOf(currentGuess[4])+1,temp.length);
+      }
+      if(index === 5 && temp !== ''){
+        if(gameModeColor === ORANGE){
+          setStreakCount(streakCount = 0);
+        }
       }
       return retArray;
 
@@ -770,6 +807,8 @@ function Content() {
       {Square(59,-4,board[5][2], colorArr[5][2])}
       {Square(59,-13,board[5][3], colorArr[5][3])}
       {Square(59,-22,board[5][4], colorArr[5][4])}
+
+      {gameModeColor === ORANGE && streakSquare(14,-31,streakCount+'', LIGHTGRAY)}
 
 
       {CalendarComponent()}
