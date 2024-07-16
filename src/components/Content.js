@@ -476,8 +476,13 @@ function Content() {
       color: WHITE,
       borderRadius: '5px'
     };
+    let message = '';
+    if(gameModeColor === GREEN || gameModeColor === BLUE){
+      message = "Select a New Game Mode";
+    }
+    else message = "Press Enter to Play Again";
     return(
-      <div style={style}>The Word was: {answer.toUpperCase()}. Select a New Game Mode</div>
+      <div style={style}>The Word was: {answer.toUpperCase()}. {message}</div>
     )
   }
 
@@ -543,6 +548,9 @@ function Content() {
   }
 
   function handleEnter(){
+    if(locked && (gameModeColor === PURPLE || gameModeColor === RED || gameModeColor === ORANGE)){
+      wipe();
+    }
     let guessStr = (currentGuess[0] + '' + currentGuess[1] + '' + currentGuess[2] + '' + currentGuess[3] + '' + currentGuess[4]).toLowerCase();
     if(validWords.includes(guessStr)){
       let rowColors = processGuess(guessStr);
@@ -550,12 +558,19 @@ function Content() {
       setColors(colors = [rowColors[0], rowColors[1], rowColors[2], rowColors[3], rowColors[4]]);
       setCurrentWord(currentWord = currentGuess);
       index++;
+      if(index > 5){
+        handleEnd();
+      }
       currentGuess = [];
       board[index] = currentGuess;
     }
     else{
       colorArr[index] = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED];
       setColors(colors = [SOFTRED,SOFTRED,SOFTRED,SOFTRED,SOFTRED]);
+      if(currentGuess.length === 0){
+        colorArr[index] = [LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY];
+        setColors(colors = [LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY]);
+      }
     }
   }
   
@@ -566,7 +581,7 @@ function Content() {
       else if(currentGuess.length < 5 && (event.key.length === 1 && event.key.match(/[a-zA-Z]/))){
         handleQwerty(event.key.toString().toUpperCase());
       } 
-      else if(event.key === 'Enter' && currentGuess.length === 5){
+      else if((event.key === 'Enter' && currentGuess.length === 5) || locked){
         handleEnter();
       }  
   }
@@ -608,6 +623,7 @@ function Content() {
   function handleStreak(){
     gameModeColor = ORANGE;
     wipe();
+    answer = allAnswers[Math.floor(Math.random() * allAnswers.length)];
     handleClick();
   }
 
@@ -657,7 +673,7 @@ function Content() {
         temp = temp.substring(0,temp.indexOf(answer[4])) + temp.substring(temp.indexOf(answer[4])+1,temp.length);
       }
       if(temp === ''){
-        handleWin();
+        handleEnd();
       }
       //yellow logic
       if(temp.indexOf(currentGuess[0]) !== -1 && currentGuess[0] !== answer[0]){
@@ -696,9 +712,18 @@ function Content() {
     qwertyColors = [LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY,LIGHTLIGHTGRAY];
     index = 0;//current row
     currentGuess = [];//current guess
+    if(gameModeColor === PURPLE){
+      answer = allAnswers[Math.floor(Math.random() * allAnswers.length)];
+    }
+    else if(gameModeColor === RED){
+      answer = challengeWords[Math.floor(Math.random() * challengeWords.length)];
+    }
+    else if(gameModeColor === ORANGE){
+      answer = allAnswers[Math.floor(Math.random() * allAnswers.length)];
+    }
   }
 
-  function handleWin(){
+  function handleEnd(){
     locked = true;
   }
 
