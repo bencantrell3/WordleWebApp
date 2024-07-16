@@ -384,6 +384,25 @@ function Content() {
     borderRadius: '10px',
   }
 
+  let infoStyle = {
+    width: '4vw',            
+    height: '4vh' ,         
+    backgroundColor: BLACK,
+    position:'fixed',
+    top: '45vh',              
+    left: '1vw',       
+    border: '4px solid ' + WHITE,
+    padding: '5px',
+    margin: '0px',
+    fontSize: '3vh',
+    alignItems: 'center',         // Centers items vertically
+    justifyContent: 'center',     // Centers items horizontally
+    textAlign: 'center',  
+    lineHeight: '1.2',    
+    color: WHITE,
+    borderRadius: '10px',
+  }
+
 
 
   let Sidebar = () => {
@@ -412,6 +431,7 @@ function Content() {
         <div style={randomStyle} onClick={handleRandom}>RANDOM</div>
         <div style={challengeStyle} onClick={handleChallenge}>CHALLENGE</div>
         <div style={streakStyle} onClick={handleStreak}>STREAK</div>
+        <div style={infoStyle} onMouseEnter={handleInfo}>?</div>
       </div>
     )
   }
@@ -489,12 +509,12 @@ function Content() {
     }
     let style = {
       filter: blurVar,
-      width: '44vh',            
+      width: '45vh',            
       height: '4vh' ,         
       backgroundColor: LIGHTGRAY,
       position:'fixed',
       top: '66vh',              
-      left: 'calc(50% + ' + -22.5 + 'vh)',
+      left: 'calc(50% + ' + -23 + 'vh)',
       transform: 'translateY(-50%)',
       border: '4px solid ' + gameModeColor,
       fontSize: '2vh',
@@ -517,11 +537,11 @@ function Content() {
 
   let archiveMenu = () => {
     let style = {
-      width: '29.3vw',            
-      height: '6.7vh' ,         
+      width: '29.5vw',            
+      height: '6.2vh' ,         
       backgroundColor: BLACK,
       position:'fixed',
-      top: '17vh',              
+      top: '16.7vh',              
       left: '1vw',       
       border: '4px solid ' + BLUE,
       padding: '0vh',
@@ -535,6 +555,8 @@ function Content() {
       borderRadius: '10px',
       opacity: opac,
       pointerEvents: canClickSideBar ? 'auto' : 'none',
+      fontFamily:"'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif'",//pretty sure this isnt picking up everything
+
     }
     return(
       <select className="custom-select" style={style} onChange={handleChange}>
@@ -654,6 +676,10 @@ function Content() {
     wipe();
     answer = allAnswers[Math.floor(Math.random() * allAnswers.length)];
     handleClick();
+  }
+
+  function handleInfo(){
+
   }
 
   const handleChange = (event) => {
