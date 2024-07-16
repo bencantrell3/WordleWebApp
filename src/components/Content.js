@@ -454,7 +454,12 @@ function Content() {
   }
 
   let endGameMessage = () => {
+    let blurVar = '';
+    if(globalBlur){
+      blurVar = 'blur(5px)';
+    }
     let style = {
+      filter: blurVar,
       width: '44vh',            
       height: '4vh' ,         
       backgroundColor: LIGHTGRAY,
@@ -472,7 +477,7 @@ function Content() {
       borderRadius: '5px'
     };
     return(
-      <div style={style}>The Word was: {answer.toUpperCase()}. Press Enter to Play Again</div>
+      <div style={style}>The Word was: {answer.toUpperCase()}. Select a New Game Mode</div>
     )
   }
 
@@ -776,11 +781,10 @@ function Content() {
       {qwerty(91, -35.2, qwertyList[27],15, qwertyColors[27])}
 
 
-
+      {locked && endGameMessage()}
       {Sidebar()}
       {button()}
       {gameModeTitle()}
-      {locked && endGameMessage()}
       {opac === 100 && archiveMenu()}
     </>
   )
