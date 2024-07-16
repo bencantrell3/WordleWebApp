@@ -225,7 +225,7 @@ function Content() {
       //padding: '10px',
       //margin: '20px',
       borderRadius: '10px',
-      fontSize: ''+ size + 'px',
+      fontSize: ''+ size + 'vh',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
@@ -389,20 +389,21 @@ function Content() {
   
   let button = () => {
     let style = {
-      width: '12vw',            
-      height: '2vh',          
-      fontSize: '1.5vh',
+      width: '15vw',            
+      height: '4vh',          
+      fontSize: 'calc(1.5vw + 0.0vh)',
       alignItems: 'center',         // Centers items vertically
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',
       backgroundColor: BLACK,
       position: 'fixed',
-      top: '2.5vh',              
-      //right: 'offsetVar',       
+      top: '4.5vh',              
+      left: '2vh',      
       transform: 'translateY(-50%)',
       border: '4px solid ' + gameModeColor,
-      padding: '10px',
-      margin: '20px',
+      lineHeight: '3.8vh',
+      //padding: '10px',
+      //margin: '20px',
       borderRadius: '10px',
       color: gameModeColor,
     };
@@ -431,22 +432,21 @@ function Content() {
       text = "STREAK";
     }
     let style = {
-      width: '12vw',            
-      height: '2vh',          
-      fontSize: fontVar,
+      width: '15vw',            
+      height: '4vh',          
+      fontSize: 'calc(1.5vw + 0.0vh)',
       alignItems: 'center',         // Centers items vertically
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',
       backgroundColor: BLACK,
       position: 'fixed',
-      top: '2.5vh',              
-      right: '-0.5vw',       
+      top: '4.5vh',              
+      right: '2vh',         
       transform: 'translateY(-50%)',
       border: '4px solid ' + gameModeColor,
-      padding: '10px',
-      margin: '20px',
       borderRadius: '10px',
       color: gameModeColor,
+      lineHeight: '3.8vh',
     };
     return(
       <div style={style} onClick={handleClick}>{text}</div>
@@ -774,36 +774,36 @@ function Content() {
 
       {CalendarComponent()}
       
-      {qwerty(73, 32.9, qwertyList[0],30, qwertyColors[0])}
-      {qwerty(73, 24.9, qwertyList[1],30, qwertyColors[1])}
-      {qwerty(73, 16.9, qwertyList[2],30, qwertyColors[2])}
-      {qwerty(73, 8.9, qwertyList[3],30, qwertyColors[3])}
-      {qwerty(73, 0.9, qwertyList[4],30, qwertyColors[4])}
-      {qwerty(73, -7.1, qwertyList[5],30, qwertyColors[5])}
-      {qwerty(73, -15.1, qwertyList[6],30, qwertyColors[6])}
-      {qwerty(73, -23.1, qwertyList[7],30, qwertyColors[7])}
-      {qwerty(73, -31.1, qwertyList[8],30, qwertyColors[8])}
-      {qwerty(73, -39.1, qwertyList[9],30, qwertyColors[9])}
+      {qwerty(73, 32.9, qwertyList[0],3, qwertyColors[0])}
+      {qwerty(73, 24.9, qwertyList[1],3, qwertyColors[1])}
+      {qwerty(73, 16.9, qwertyList[2],3, qwertyColors[2])}
+      {qwerty(73, 8.9, qwertyList[3],3, qwertyColors[3])}
+      {qwerty(73, 0.9, qwertyList[4],3, qwertyColors[4])}
+      {qwerty(73, -7.1, qwertyList[5],3, qwertyColors[5])}
+      {qwerty(73, -15.1, qwertyList[6],3, qwertyColors[6])}
+      {qwerty(73, -23.1, qwertyList[7],3, qwertyColors[7])}
+      {qwerty(73, -31.1, qwertyList[8],3, qwertyColors[8])}
+      {qwerty(73, -39.1, qwertyList[9],3, qwertyColors[9])}
 
-      {qwerty(82, 28.8, qwertyList[10],30, qwertyColors[10])}
-      {qwerty(82, 20.8, qwertyList[11],30, qwertyColors[11])}
-      {qwerty(82, 12.8, qwertyList[12],30, qwertyColors[12])}
-      {qwerty(82, 4.8, qwertyList[13],30, qwertyColors[13])}
-      {qwerty(82, -3.2, qwertyList[14],30, qwertyColors[14])}
-      {qwerty(82, -11.2, qwertyList[15],30, qwertyColors[15])}
-      {qwerty(82, -19.2, qwertyList[16],30, qwertyColors[16])}
-      {qwerty(82, -27.2, qwertyList[17],30, qwertyColors[17])}
-      {qwerty(82, -35.2, qwertyList[18],30, qwertyColors[18])}
+      {qwerty(82, 28.8, qwertyList[10],3, qwertyColors[10])}
+      {qwerty(82, 20.8, qwertyList[11],3, qwertyColors[11])}
+      {qwerty(82, 12.8, qwertyList[12],3, qwertyColors[12])}
+      {qwerty(82, 4.8, qwertyList[13],3, qwertyColors[13])}
+      {qwerty(82, -3.2, qwertyList[14],3, qwertyColors[14])}
+      {qwerty(82, -11.2, qwertyList[15],3, qwertyColors[15])}
+      {qwerty(82, -19.2, qwertyList[16],3, qwertyColors[16])}
+      {qwerty(82, -27.2, qwertyList[17],3, qwertyColors[17])}
+      {qwerty(82, -35.2, qwertyList[18],3, qwertyColors[18])}
 
-      {qwerty(91, 28.8, qwertyList[19],15, qwertyColors[19])}
-      {qwerty(91, 20.8, qwertyList[20],30, qwertyColors[20])}
-      {qwerty(91, 12.8, qwertyList[21],30, qwertyColors[21])}
-      {qwerty(91, 4.8, qwertyList[22],30, qwertyColors[22])}
-      {qwerty(91, -3.2, qwertyList[23],30, qwertyColors[23])}
-      {qwerty(91, -11.2, qwertyList[24],30, qwertyColors[24])}
-      {qwerty(91, -19.2, qwertyList[25],30, qwertyColors[25])}
-      {qwerty(91, -27.2, qwertyList[26],30, qwertyColors[26])}
-      {qwerty(91, -35.2, qwertyList[27],15, qwertyColors[27])}
+      {qwerty(91, 28.8, qwertyList[19],2, qwertyColors[19])}
+      {qwerty(91, 20.8, qwertyList[20],3, qwertyColors[20])}
+      {qwerty(91, 12.8, qwertyList[21],3, qwertyColors[21])}
+      {qwerty(91, 4.8, qwertyList[22],3, qwertyColors[22])}
+      {qwerty(91, -3.2, qwertyList[23],3, qwertyColors[23])}
+      {qwerty(91, -11.2, qwertyList[24],3, qwertyColors[24])}
+      {qwerty(91, -19.2, qwertyList[25],3, qwertyColors[25])}
+      {qwerty(91, -27.2, qwertyList[26],3, qwertyColors[26])}
+      {qwerty(91, -35.2, qwertyList[27],2, qwertyColors[27])}
 
 
       {locked && endGameMessage()}
