@@ -18,7 +18,7 @@ async function fetchData() {
     matches.shift();//ignores the "CIGAR" in the blog post
     matches.splice(matches.indexOf("CIGAR") + 1);//removes the duplicate instances of all words
     archive = matches.reverse();
-    //console.log(matches);
+    console.log(matches);
     optionElements = [];
     for (let i = 0; i < archive.length; i++) { 
       optionElements.unshift(
@@ -35,7 +35,7 @@ await fetchData();
 
 let validWords = [];
 function fetchAndLogTextFile() {
-  fetch('${process.env.PUBLIC_URL}/allWords.txt')
+  fetch('https://bencantrell3.github.io/WordleWebApp/allWords.txt')
     .then(response => {
       if (!response.ok) {
         throw new Error(`ERROR FETCHING ALL WORDS ${response.status}`);
@@ -54,7 +54,7 @@ function fetchAndLogTextFile() {
 }
 let allAnswers = [];
 function fetchAndLogTextFile2() {
-  fetch('${process.env.PUBLIC_URL}/allAnswers.txt')
+  fetch('https://bencantrell3.github.io/WordleWebApp/allAnswers.txt')
     .then(response => {
       if (!response.ok) {
         throw new Error(`ERROR FETCHING ALL ANSWERS ${response.status}`);
@@ -291,7 +291,7 @@ function Content() {
   let randomStyle = {
     width: '28vw',            
     height: '4vh' ,         
-    backgroundColor: GREEN,
+    backgroundColor: BLACK,
     position:'fixed',
     top: '24vh',              
     left: '1vw',       
