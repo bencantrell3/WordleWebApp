@@ -232,6 +232,12 @@ function Content() {
   }
   
   let streakSquare = (top, offset, letter, colorX) => {
+    let sizeFont = '8vh';
+    let heightLine = '0.8';
+    if(streakCount / 10 >= 1){
+      sizeFont = '6vh';
+      heightLine = '1.1';
+    }
     let blurVar = '';
     if(globalBlur){
       blurVar = 'blur(5px)';
@@ -250,11 +256,11 @@ function Content() {
       border: '4px solid ' + ORANGE,
       //padding: '5px',
       //margin: '20px',
-      fontSize: '8vh',
+      fontSize: sizeFont,
       alignItems: 'center',         // Centers items vertically
       justifyContent: 'center',     // Centers items horizontally
       textAlign: 'center',  
-      lineHeight: '0.8',    
+      lineHeight: heightLine,    
       color: WHITE,
     };
     return(
@@ -785,6 +791,7 @@ function Content() {
       
       {background()}
       {title()}
+      {console.log(answer)}
       
       {Square(14,14,board[0][0], colorArr[0][0])}
       {Square(14,5,board[0][1], colorArr[0][1])}
