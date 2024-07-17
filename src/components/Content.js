@@ -27,7 +27,7 @@ async function fetchData() {
     }
     //console.log(archive); // Output the matches found
   } catch (error) {
-    console.error('Error fetching the webpage:', error);
+    console.error('ERROR FETCHING ARCHIVE', error);
   }
 }
 
@@ -35,10 +35,10 @@ await fetchData();
 
 let validWords = [];
 function fetchAndLogTextFile() {
-  fetch('/allWords.txt')
+  fetch('${process.env.PUBLIC_URL}/allWords.txt')
     .then(response => {
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`ERROR FETCHING ALL WORDS ${response.status}`);
       }
       return response.text();
     })
@@ -49,15 +49,15 @@ function fetchAndLogTextFile() {
       });
     })
     .catch(error => {
-      console.error('Error fetching the text file:', error);
+      console.error('ERROR FETCHING ALL WORDS', error);
     });
 }
 let allAnswers = [];
 function fetchAndLogTextFile2() {
-  fetch('/allAnswers.txt')
+  fetch('${process.env.PUBLIC_URL}/allAnswers.txt')
     .then(response => {
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`ERROR FETCHING ALL ANSWERS ${response.status}`);
       }
       return response.text();
     })
@@ -68,7 +68,7 @@ function fetchAndLogTextFile2() {
       });
     })
     .catch(error => {
-      console.error('Error fetching the text file:', error);
+      console.error('ERROR FETCHING ALL ANSWERS', error);
     });
 }
 
