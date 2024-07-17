@@ -1,48 +1,7 @@
-import "./Content.css";
 import { useState } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';//calendar dependency
-import DatePicker from 'react-datepicker';//calendar dependency
 
 
-
-//CALENDAR: MAY NOT USE///////////////////////////////////////////////////////////////////////////////////////////////////////
-const CalendarComponent = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
-  const style = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    backgroundColor: 'rgb(240, 240, 240)',
-    opacity: '0'
-  };
-
-  const datePickerStyle = {
-    width: '300px',
-    padding: '10px',
-    backgroundColor: 'white',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-  };
-
-  return (
-    <div style={style}>
-      <div style={datePickerStyle}>
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleDateChange}
-          inline
-        />
-      </div>
-    </div>
-  );
-};
-
+//WORD LISTS SETUP///////////////////////////////////////////////////////////////////////////////////////////////////////
 let fetchedHtml = "";
 let archive = [];
 let optionElements = [];
@@ -72,13 +31,8 @@ async function fetchData() {
   }
 }
 
-// Call the async function
 await fetchData();
-//console.log("LOOK FOR THIS: " + archive[0]);
- 
 
-
-//WORD LISTS SETUP///////////////////////////////////////////////////////////////////////////////////////////////////////
 let validWords = [];
 function fetchAndLogTextFile() {
   fetch('/allWords.txt')
@@ -156,13 +110,14 @@ function Content() {
 
   keyAdded = true;
 
-  //USESTATES: CURRENT GUESS AND COLORS. BACKSPACE IS BUGGED RN////////////////////////////////////////////////////////////////
+  //USESTATES: CURRENT GUESS AND COLORS. //////////////////////////////////////////////////////////////////////////////////
   let [currentWord, setCurrentWord] = useState([]);
   let [colors, setColors] = useState([LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY,LIGHTGRAY]);
   let [opac, setOpac] = useState(0);
   let [archiveOpac, setArchiveOpac] = useState(0);
   let [selectedOption, setSelectedOption] = useState('');
   let [streakCount, setStreakCount] = useState(0);
+  let [showInfo, setShowInfo] = useState(false);
   //INLINE STYLING OF COMPONENTS///////////////////////////////////////////////////////////////////////////////////////////////
   let background = () => {
     let style = {
@@ -431,7 +386,7 @@ function Content() {
         <div style={randomStyle} onClick={handleRandom}>RANDOM</div>
         <div style={challengeStyle} onClick={handleChallenge}>CHALLENGE</div>
         <div style={streakStyle} onClick={handleStreak}>STREAK</div>
-        <div style={infoStyle} onMouseEnter={handleInfo}>?</div>
+        <div style={infoStyle} onMouseEnter={handleInfoEnter} onMouseLeave={handleInfoExit}>?</div>
       </div>
     )
   }
@@ -566,6 +521,35 @@ function Content() {
     )
   }
 
+  let infoBox = () => {
+    let style = {
+      width: '45vw',            
+      height: 'calc(30vh + 5vw)',          
+      fontSize: 'calc(1.5vw + 0.0vh)',
+      alignItems: 'center',         // Centers items vertically
+      justifyContent: 'center',     // Centers items horizontally
+      textAlign: 'left',
+      backgroundColor: BLACK,
+      padding: '1vh',
+      position: 'fixed',
+      top: 'calc(26vh + 2vw)',              
+      left: '32vw',      
+      transform: 'translateY(-50%)',
+      border: '4px solid ' + WHITE,
+      lineHeight: '6vh',
+      borderRadius: '10px',
+      color: WHITE,
+    };
+    return(
+      <div style={style}>
+      <p style={{color: GREEN, lineHeight: '1.7vh'}}>Play the official Wordle of the Day-Refreshes 6PM CST</p>
+      <p style={{color: BLUE, lineHeight: '10vh'}}>Choose any official Wordle to play since its creation</p>
+      <p style={{color: PURPLE, lineHeight: '1vh'}}>Play with a random word</p>
+      <p style={{color: RED, lineHeight: '10vh'}}>Play with a pool of official Wordles with the highest fail rate</p>
+      <p style={{color: ORANGE, lineHeight: '1.2vh'}}>See how many random words you can solve in a row</p>
+      </div>
+    )
+  }
   
 
   //EVENT HANDLING////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -678,8 +662,12 @@ function Content() {
     handleClick();
   }
 
-  function handleInfo(){
+  function handleInfoEnter(){
+    setShowInfo(showInfo = true);
+  }
 
+  function handleInfoExit(){
+    setShowInfo(showInfo = false);
   }
 
   const handleChange = (event) => {
@@ -836,8 +824,6 @@ function Content() {
 
       {gameModeColor === ORANGE && streakSquare(14,-31,streakCount+'', LIGHTGRAY)}
 
-
-      {CalendarComponent()}
       
       {qwerty(73, 32.9, qwertyList[0],3, qwertyColors[0])}
       {qwerty(73, 24.9, qwertyList[1],3, qwertyColors[1])}
@@ -876,6 +862,7 @@ function Content() {
       {button()}
       {gameModeTitle()}
       {opac === 100 && archiveMenu()}
+      {showInfo && infoBox()}
     </>
   )
 }
