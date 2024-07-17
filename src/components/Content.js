@@ -291,7 +291,7 @@ function Content() {
   let randomStyle = {
     width: '28vw',            
     height: '4vh' ,         
-    backgroundColor: BLACK,
+    backgroundColor: GREEN,
     position:'fixed',
     top: '24vh',              
     left: '1vw',       
